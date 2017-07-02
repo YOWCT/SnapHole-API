@@ -1,0 +1,25 @@
+extends layout
+block content
+    if results
+        table.table
+            tr
+                th file
+                th file name
+                th size
+                th longitude
+                th latitude
+                th service request id
+                th date posted
+            for result in results
+                tr
+                    td 
+                        img(src="#{result.img_url}" class="object-fit_scale-down")
+                    td= result.fk_phid
+                    td= result.size
+                    td= result.longitude 
+                    td= result.latitude
+                    td= result.service_request_id
+                    td= result.timestamp
+                    td
+                        a(href='/delete/#{result._id}') delete
+                    

@@ -1,0 +1,10 @@
+npm-debug.log
+node_modules
+.env
+.idea
+.vscode
+uploads/*
+public/docs/*
+public/docs
+
+

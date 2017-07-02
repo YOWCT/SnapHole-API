@@ -1,0 +1,20 @@
+extends layout.jade
+block content
+    form(id="uploadForm" enctype="multipart/form-data" action="/potholes" method="post")
+        input(type="file" name="userPhoto")
+        input(type="text" name="longitude" id="long")
+        input(type="text" name="latitude" id="lat")
+        input(type="submit" value="Upload Image" name="submit")
+    script.
+        $(document).ready(function(){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        function showPosition(position) { 
+                $("#long").val(position.coords.longitude);
+                $("#lat").val(position.coords.latitude);
+            }
+        });
+        

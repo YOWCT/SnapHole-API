@@ -1,0 +1,8 @@
+extends layout.jade
+block content
+    form(action="register" method="post")
+        label() User Information:
+        input(type="text" placeholder='first name' name="firstName")
+        input(type="text" placeholder='first name' name="lastName")
+        input(type="email" placeholder='email address' name="email")
+        input(type="submit")

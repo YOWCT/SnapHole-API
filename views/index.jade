@@ -1,0 +1,126 @@
+extends layout
+
+block content
+  h1= title
+  p Ottawa 311 - Number of requests by service type
+  form(action="/requests_by_date/start_date/:start_date/end_date/:end_date" method="get")
+      label() Filter by date:    
+      input(type="date" name="start_date")
+      input(type="date" name="end_date")
+  .row#d3Chart
+        style.
+            .bar {
+                fill: #406aa3;
+            }
+
+            .bar:hover {
+                fill: red;
+            }
+            .axis--x path {
+                display: none;
+            }
+            .toolTip {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                position: absolute;
+                display: none;
+                width: auto;
+                height: auto;
+                background: none repeat scroll 0 0 white;
+                border: 0 none;
+                border-radius: 8px 8px 8px 8px;
+                box-shadow: -3px 3px 15px #888888;
+                color: black;
+                font: 12px sans-serif;
+                padding: 5px;
+                text-align: center;
+            }
+            
+            .legend {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 60%;
+            }
+        script(src="https://d3js.org/d3.v3.min.js" charset="utf-8")
+        script.
+            var margin = {top: 20, right: 0, bottom: 300, left:50},
+                width = 600 - margin.left - margin.right,
+                height = 600 - margin.top - margin.bottom;
+            // set the ranges
+            var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+            var y = d3.scale.linear().range([height, 0]);
+
+            // define the axis
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom")
+
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left")
+                .ticks(10);
+
+
+            // add the SVG element
+            var svg = d3.select("#d3Chart").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", 
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+
+            // load the data
+            d3.json('/requests_by_type', function(error, data) {
+                data.forEach(function(d) {
+                    d.value = d.value;
+                    d.count = +d.count;
+                });
+                
+            // scale the range of the data
+            x.domain(data.map(function(d) { return d.value; }));
+            y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+            // add axis
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(customXAxis)
+                .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", "-.55em")
+                .attr("transform", "rotate(-90)" );
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(customYAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 5)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+
+
+            // Add bar chart
+            svg.selectAll("bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return x(d.value); })
+                .attr("width", x.rangeBand())
+                .attr("y", function(d) { return y(d.count); })
+                .attr("height", function(d) { return height - y(d.count); });
+
+            });
+            function customXAxis(g) {
+                g.call(xAxis);
+                g.select(".domain").remove();
+            }
+            function customYAxis(g) {
+            g.call(yAxis);
+            g.select(".domain").remove();
+            g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+            g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
+            }
+            
