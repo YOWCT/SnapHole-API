@@ -6,11 +6,11 @@ var mongoose = require('mongoose'),
 
 /* User Schema - Basic info */
 var UserSchema = new Schema({
-    firstName: {
+    first_name: {
         type: String,
         required: true,
     },
-    lastName: {
+    last_name: {
         type: String,
         required: true,
     },
