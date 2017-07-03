@@ -25,6 +25,9 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    token: {
+        type: String
+    },
     tokenExpire: {
         type: Date
     }
