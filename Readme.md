@@ -25,7 +25,7 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 - stage/docker: 
     1. ``` docker build -t <your username>/ott311 . ```
     2. ``` docker run -p 49160:8089 -d <your username>/ott311 ```
-    3. visit ``` locahost:49160 ```
+    3. visit ``` localhost:49160 ```
 
 - production: ```NODE_ENV=production pm2 start bin/www --name ott311 --watch ```
 
