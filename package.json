@@ -13,6 +13,7 @@
     "dev": "nodemon  --exec npm start --config nodemon.json"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "bluebird": "^3.5.0",
     "body-parser": "~1.16.0",
     "busboy": "^0.2.14",
