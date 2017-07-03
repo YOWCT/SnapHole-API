@@ -21,6 +21,23 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 ```
 # Run the app
 
+## Environment Variables
+
+
+Add these variables in a file called ```.env```.
+```
+KEY_PATH=key.pem
+CERT_PATH=cert.pem
+LOCAL=127.0.0.1
+PRODUCTION=prod_ip
+DOMAIN=https://example.com
+PORT=8089
+DB_USER=db_user
+DB_HOST=db_ip_or_url
+DB_PASS=password
+
+```
+
 - development: ``` npm run dev ```
 - stage/docker: 
     1. ``` docker build -t <your username>/ott311 . ```
