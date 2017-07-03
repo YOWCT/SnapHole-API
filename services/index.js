@@ -8,7 +8,6 @@ exports.isAdmin = function(req, res, next) {
     }
 }
 
-
 /**
  * Pass directory path
  * Return list of files in directory

@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var User = require('./models/user');
 mongoose.Promise = require('bluebird');
 var index = require('./routes/index');
+var users = require('./routes/users');
 var cookieSession = require('cookie-session')
 var app = express();
 app.use(cookieSession({
@@ -27,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/', index);
-app.user('/users', users);
+app.use('/users', users);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
