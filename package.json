@@ -35,8 +35,6 @@
     },
     "devDependencies": {
         "jsdoc": "^3.4.3",
-        "jsonwebtoken": "^7.4.1",
         "nodemon": "^1.11.0"
     }
-
 }
