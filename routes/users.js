@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose'),
+var express = require('express'),
+    router = express.Router(),
+    mongoose = require('mongoose'),
     async = require('async'),
-    User = mongoose.model('User');
-const crypto = require('crypto');
+    User = mongoose.model('User'),
+    crypto = require('crypto'),
+    mail = require('../services/mail');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -23,7 +24,6 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next) {
-    console.log(req.body);
     async.waterfall([
             //create randome token: crypto library?
             function(done) {
@@ -48,13 +48,25 @@ router.post('/register', function(req, res, next) {
                         res.send("There was a problem adding user to the database.");
                         console.log(err)
                     } else {
-                        done(token, user)
+                        done(null, token, user)
                     }
                 });
             },
             // Send email
             function(token, user, done) {
-                done(token, user);
+                console.log(token);
+                var url = process.env.DOMAIN + "users/activate/" + token;
+                var data = {
+                    from: process.env.FROM_EMAIL,
+                    to: user.email,
+                    subject: 'Account Activation',
+                    text: url
+                };
+
+                mail.sendEmail(data);
+                done(null, token, user);
+
+
 
                 /*    /// CREATE EMAIL FOR CONFIRMATION AND LOGIN OF USER ON THE PHONE
                     const templateDir = path.join(__dirname, '../emails', 'activate');
