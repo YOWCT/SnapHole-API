@@ -35,6 +35,8 @@ PORT=8089
 DB_USER=db_user
 DB_HOST=db_ip_or_url
 DB_PASS=password
+MAILGUN_KEY=key-api_key
+FROM_EMAIL=ott311@esdev.xyz
 
 ```
 
