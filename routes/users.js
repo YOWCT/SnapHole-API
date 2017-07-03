@@ -32,20 +32,30 @@ router.post('/register', function(req, res, next) {
                     done(err, token);
                 });
             },
-            // add user to database
             function(token, done) {
                 // Create account:
-                var newUser = new User(req.body);
-                // Add token info
+                var newUser = new Object(req.body);
                 newUser.token = token;
-                newUser.tokenExpire = Date.now() + 3600000; // 1 hour
-                newUser.save(function(err) {
-                    done(err, token, user);
+                newUser.tokenExpire = Date.now() + 60 * 60 * 1000;
+                mongoose.model('User').create({
+                    first_name: newUser.first_name,
+                    last_name: newUser.last_name,
+                    email: newUser.email,
+                    token: newUser.token,
+                    tokenExpire: newUser.tokenExpire
+                }, function(err, user) {
+                    if (err) {
+                        res.send("There was a problem adding user to the database.");
+                        console.log(err)
+                    } else {
+                        done(token, user)
+                    }
                 });
-                console.log(newUser);
             },
             // Send email
             function(token, user, done) {
+                done(token, user);
+
                 /*    /// CREATE EMAIL FOR CONFIRMATION AND LOGIN OF USER ON THE PHONE
                     const templateDir = path.join(__dirname, '../emails', 'activate');
                     const forgot = new EmailTemplate(templateDir);
@@ -72,13 +82,15 @@ router.post('/register', function(req, res, next) {
             },
             // Respond to client app
             function(token, user, done) {
-                req.flash('success', 'We sent you an email with further instructions')
-                res.redirect('/')
+                //    req.flash('success', 'We sent you an email with further instructions')
+                //    res.redirect('/')
+                done(null, "done");
             }
         ],
-        function(err) {
-            if (err) return next(err);
-            res.redirect('/users/activate');
+        function(err, result) {
+            res.send(result);
+            //    if (err) return next(err);
+            //    res.redirect('/users/activate');
         });
 });
 module.exports = router;
