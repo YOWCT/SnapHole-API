@@ -11,7 +11,7 @@ An app that receives a photo from a client app and sends a request to the City o
 
 # Open 311 Post Request
 
-``` 
+```
 POST /dev/v2/requests.xml
 Host: api.city.gov
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
@@ -20,6 +20,14 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 
 ```
 # Run the app
+
+## Run Mongo as Docker
+
+More information here: https://hub.docker.com/_/mongo/
+
+```
+$ docker run --name mongo -p 27017:27017 -d mongo
+```
 
 ## Environment Variables
 
@@ -41,7 +49,7 @@ FROM_EMAIL=ott311@esdev.xyz
 ```
 
 - development: ``` npm run dev ```
-- stage/docker: 
+- stage/docker:
     1. ``` docker build -t <your username>/ott311 . ```
     2. ``` docker run -p 49160:8089 -d <your username>/ott311 ```
     3. visit ``` localhost:49160 ```
