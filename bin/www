@@ -21,10 +21,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 if (process.env.NODE_ENV === 'development') {
-    var server = https.createServer({
-        key: fs.readFileSync(__dirname + '/key.pem'),
-        cert: fs.readFileSync(__dirname + '/cert.pem')
-    }, app);
+    var server = http.createServer(app);
 } else {
     var server = https.createServer({
         key: fs.readFileSync(__dirname + '/key.pem'),

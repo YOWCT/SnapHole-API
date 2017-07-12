@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 // Connection String
 if (process.env.NODE_ENV === 'development') {
-    mongoose.connect("mongodb://127.0.0.1/snaphole");
+    mongoose.connect("mongodb://127.0.0.1/snaphole", {useMongoClient: true});
 } else {
-    mongoose.connect("mongodb://" + dbuser + ":" + dbpass + "@" + dbhost + "/ott311", { auth: { authdb: "admin" } });
+    mongoose.connect("mongodb://" + dbuser + ":" + dbpass + "@" + dbhost + "/ott311", { auth: { authdb: "admin" }, useMongoClient: true});
 }

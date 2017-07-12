@@ -8,7 +8,7 @@
     },
     "scripts": {
         "test": "echo\"No tests specified\" && exit 1",
-        "prestart": "./prestart.sh",
+        "prestart": "jsdoc services/index.js -d public/docs",
         "start": "node ./bin/www",
         "dev": "nodemon  --exec npm start --config nodemon.json"
     },
@@ -26,6 +26,7 @@
         "express": "~4.14.1",
         "fs-extra": "^2.1.2",
         "jade": "~1.11.0",
+        "jsdoc": "^3.5.1",
         "mailgun-js": "^0.11.2",
         "mongoose": "^4.9.1",
         "morgan": "~1.7.0",
@@ -34,7 +35,6 @@
         "serve-favicon": "~2.3.2"
     },
     "devDependencies": {
-        "jsdoc": "^3.4.3",
         "nodemon": "^1.11.0"
     }
 }
