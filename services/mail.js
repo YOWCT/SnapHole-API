@@ -1,9 +1,11 @@
-var api_key = process.env.MAILGUN_KEY;
-var domain = 'mg.esdev.xyz';
-var mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+let {MAILGUN_KEY} = process.env;
+MAILGUN_KEY = MAILGUN_KEY || 'unknown-key'
 
-exports.sendEmail = function(data) {
-    mailgun.messages().send(data, function(error, body) {
+const domain = 'mg.esdev.xyz';
+const mailgun = require('mailgun-js')({ apiKey: MAILGUN_KEY, domain: domain });
+
+exports.sendEmail = (data) => {
+    mailgun.messages().send(data, (error, body) => {
         console.log(body);
     });
     console.log(data);
