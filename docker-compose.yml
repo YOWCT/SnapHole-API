@@ -3,25 +3,21 @@ services:
   web:
     build: .
     container_name: pothole
+    env_file: .env
     environment:
-      - NODE_ENV=development
       - DB_HOST=mongodb
-      - MAILGUN_KEY=key-api_key
-      - FROM_EMAIL=ott311@esdev.xyz
     ports:
       - 8089:8089
-    links:
-      - mongodb
     depends_on:
       - mongodb
   mongodb:
     image: mongo:latest
-    container_name: "mongodb"
+    container_name: mongodb
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
     volumes:
       - ./data/db:/data/db
     ports:
-        - 27017:27017
+      - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet

@@ -6,18 +6,22 @@ const path = require('path');
 const http = require('http');
 const https = require('https');
 const debug = require('debug')('workspace:server');
+let {PORT, NODE_ENV} = process.env;
+
+// Default Environment variables
+PORT = PORT || 8089;
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || 8089);
+const port = normalizePort(PORT);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 let server;
-if (process.env.NODE_ENV === 'development') {
+if (NODE_ENV === 'development') {
     server = http.createServer(app);
 } else {
     server = https.createServer({
