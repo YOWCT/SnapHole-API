@@ -48,6 +48,7 @@ More information here: https://hub.docker.com/_/mongo/
 **Docker Compose (start/stop)**
 
 ```bash
+$ docker-compose build
 $ docker-compose start mongodb
 Starting mongodb ... done
 
