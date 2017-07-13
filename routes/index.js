@@ -117,6 +117,7 @@ router.post('/sr_information', function(req, res) {
         timestamp: Date.now(),
         fk_phid: fk_phid,
         img_url: img_url,
+        location: { type: "Point", coordinates: [longitude, latitude] },
         longitude: longitude,
         latitude: latitude
     }, function(err, sr) {
@@ -124,7 +125,7 @@ router.post('/sr_information', function(req, res) {
             res.send("There was a problem adding the information to the database.");
             console.log(err)
         } else {
-            services.sendTicketToCity(fk_phid, latitude, longitude);
+            //services.sendTicketToCity(fk_phid, latitude, longitude);
             res.send(sr);
         }
     });

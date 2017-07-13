@@ -7,9 +7,14 @@ var srSchema = new Schema({
     fk_phid: String,
     img_url: String,
     size: String,
+    location: {
+        type: { type: String },
+        coordinates: []
+    },
     latitude: Number,
     longitude: Number,
     service_request_id: String,
     service_notice: String
 });
+srSchema.index({ location: '2dsphere' });
 mongoose.model('Sr', srSchema);
