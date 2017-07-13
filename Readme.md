@@ -33,7 +33,7 @@ Using your favorite web browser visit [`http://localhost:8089`](http://localhost
 
 You must first install all dependencies using the [latest version of NodeJS](https://nodejs.org/en/).
 
-```
+```bash
 $ git clone git@github.com:YOWCT/pothole_webserver.git
 $ cd pothole_webserver
 $ npm install
@@ -45,15 +45,31 @@ One of the easiest way to set up [MongoDB](https://www.mongodb.com/) is via a Do
 
 More information here: https://hub.docker.com/_/mongo/
 
+**Docker Compose (start/stop)**
+
+```bash
+$ docker-compose start mongodb
+Starting mongodb ... done
+
+$ docker-compose stop mongodb
+Stopping mongodb ... done
 ```
-$ docker run -d --name mongo -p 27017:27017 mongo
+
+**Docker (start/stop)**
+
+```bash
+$ docker run -d --name mongodb -p 27017:27017 mongo
+da99aabd553b1c69c907068eea0f32329b47ad447000cc3204db27061f92673c
+
+$ docker stop mongodb
+mongodb
 ```
 
 ### Environment Variables
 
 Add these variables in a file called `.env`.
 
-```
+```env
 KEY_PATH=key.pem
 CERT_PATH=cert.pem
 LOCAL=127.0.0.1
@@ -67,11 +83,22 @@ MAILGUN_KEY=key-api_key
 FROM_EMAIL=ott311@esdev.xyz
 ```
 
-### Start Web Server
+### Start Server
 
-```
+```bash
 $ npm start
+
+> pothole_webserver@0.0.0 prestart /Users/mac/Github/pothole_webserver
+> jsdoc services/index.js -d public/docs
+
+
+> pothole_webserver@0.0.0 start /Users/mac/Github/pothole_webserver
+> node ./bin/www
+
+server running on port: 8089
 ```
+
+Using your favorite web browser visit [`http://localhost:8089`](http://localhost:8089).
 
 ## References
 
@@ -84,7 +111,7 @@ $ npm start
 
 ### Open 311 Post Request
 
-```
+```http
 POST /dev/v2/requests.xml
 Host: api.city.gov
 Content-Type: application/x-www-form-urlencoded; charset=utf-8

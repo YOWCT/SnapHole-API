@@ -16,7 +16,7 @@ var app = express();
 app.use(cookieSession({
     name: 'session',
     keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours 
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
