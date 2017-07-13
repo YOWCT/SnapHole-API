@@ -1,11 +1,13 @@
-var dbhost = process.env.DB_HOST;
-var dbuser = process.env.DB_USER;
-var dbpass = process.env.DB_PASS;
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const {DB_HOST, DB_USER, DB_PASS, NODE_ENV} = process.env;
 
-// Connection String
-if (process.env.NODE_ENV === 'development') {
-    mongoose.connect("mongodb://127.0.0.1/snaphole", {useMongoClient: true});
+// Connection
+if (NODE_ENV === 'development') {
+    const uri = `mongodb://${DB_HOST}/snaphole`
+    const options = { useMongoClient: true };
+    mongoose.connect(uri, options);
 } else {
-    mongoose.connect("mongodb://" + dbuser + ":" + dbpass + "@" + dbhost + "/ott311", { auth: { authdb: "admin" }, useMongoClient: true});
+    const uri = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}/ott311`
+    const options = { auth: { authdb: "admin" }, useMongoClient: true };
+    mongoose.connect(uri, options);
 }

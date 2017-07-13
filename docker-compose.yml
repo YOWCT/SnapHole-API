@@ -3,6 +3,11 @@ services:
   web:
     build: .
     container_name: pothole
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mongodb
+      - MAILGUN_KEY=key-api_key
+      - FROM_EMAIL=ott311@esdev.xyz
     ports:
       - 8089:8089
     links:
