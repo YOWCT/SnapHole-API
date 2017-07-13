@@ -102,7 +102,6 @@ router.get('/service_requests/:format?', function(req, res) {
 // Store that email with the request
 // return as JSON: success
 
-
 // POST Receive service request information from client app, initiate storage. 
 router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
