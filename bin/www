@@ -6,7 +6,7 @@ const path = require('path');
 const http = require('http');
 const https = require('https');
 const debug = require('debug')('workspace:server');
-let {PORT, NODE_ENV} = process.env;
+let { PORT, NODE_ENV } = process.env;
 
 // Default Environment variables
 PORT = PORT || 8089;

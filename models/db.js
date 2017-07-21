@@ -13,11 +13,8 @@ if (MONGODB_URI) {
     const options = { useMongoClient: true };
     mongoose.connect(uri, options);
 } else {
-    const uri = `mongodb://${DB_HOST}/snaphole`
-    const options = { useMongoClient: true };
-    mongoose.connect(uri, options);
     // ignore auth for now.
-    // const uri = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}/ott311`
-    // const options = { auth: { authdb: "admin" }, useMongoClient: true };
-    // mongoose.connect(uri, options);
+    const uri = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}/ott311`
+    const options = { auth: { authdb: "admin" }, useMongoClient: true };
+    mongoose.connect(uri, options);
 }
