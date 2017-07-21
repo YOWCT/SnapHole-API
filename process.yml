@@ -1,0 +1,8 @@
+apps:
+  - script   : 'bin/www'
+    name     : 'potholes'
+    exec_mode: 'cluster'
+    instances: 4
+    watch    : true
+    env:
+      NODE_ENV: production
