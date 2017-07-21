@@ -15,4 +15,4 @@ COPY . /usr/src/app
 
 # Start App
 EXPOSE 8089
-CMD ["npm", "start"]
+CMD ["pm2-docker", "process.yml"]
