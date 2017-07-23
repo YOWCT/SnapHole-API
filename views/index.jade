@@ -1,13 +1,20 @@
 extends layout
 
 block content
-  h1= title
-  p Ottawa 311 - Number of requests by service type
-  form(action="/requests_by_date/start_date/:start_date/end_date/:end_date" method="get")
-      label() Filter by date:    
-      input(type="date" name="start_date")
-      input(type="date" name="end_date")
-  .row#d3Chart
+    h1= title
+    p Ottawa 311 - Number of requests by service type
+    h3 Things we might want to display
+    ul
+        li Map
+        li Number of potholes reported
+        li Number of app downloads
+        
+    form(action="/requests_by_date/start_date/:start_date/end_date/:end_date" method="get")
+        label() Filter by date:    
+        input(type="date" name="start_date")
+        input(type="date" name="end_date")
+    
+    .row#d3Chart
         style.
             .bar {
                 fill: #406aa3;
@@ -34,7 +41,7 @@ block content
                 padding: 5px;
                 text-align: center;
             }
-            
+
             .legend {
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
                 font-size: 60%;
@@ -76,7 +83,7 @@ block content
                     d.value = d.value;
                     d.count = +d.count;
                 });
-                
+
             // scale the range of the data
             x.domain(data.map(function(d) { return d.value; }));
             y.domain([0, d3.max(data, function(d) { return d.count; })]);
@@ -123,4 +130,3 @@ block content
             g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
             g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
             }
-            

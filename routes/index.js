@@ -45,6 +45,7 @@ router.get('/requests_by_type', function(req, res, next) {
     });
 });
 
+
 router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', function(req, res, next) {
     // get our data    
     var start_date = "2017-01-01T00:00:00Z";
@@ -92,6 +93,27 @@ router.get('/service_requests/:format?', function(req, res) {
         }
     });
 });
+router.get('/map', function(req, res) {
+    mongoose.model('Sr').find({}, function(err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(results)
+            var vm = {
+                title: "Potholes List",
+                results: results
+            };
+            if (req.params.format) { res.json(results); } else {
+                var vm = {
+                    title: "Potholes List",
+                    results: results
+                };
+                res.render('map', vm);
+            }
+        }
+    });
+});
+
 // Create an authentication route
 // POST Request 
 // Params: email 

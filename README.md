@@ -133,3 +133,7 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 
 - https://medium.com/@adinugroho/upload-image-from-ios-app-using-alamofire-ecc6ad7fccc
 - https://github.com/expressjs/multer/blob/master/StorageEngine.md
+
+** IOS **
+
+- https://youtu.be/zAWO9rldyUE
