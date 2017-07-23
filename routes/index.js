@@ -93,20 +93,34 @@ router.get('/service_requests/:format?', function(req, res) {
         }
     });
 });
-router.get('/map', function(req, res) {
+
+
+router.get('/map/:format?', function(req, res) {
     mongoose.model('Sr').find({}, function(err, results) {
         if (err) {
             console.log(err);
         } else {
-            console.log(results)
-            var vm = {
-                title: "Potholes List",
-                results: results
-            };
-            if (req.params.format) { res.json(results); } else {
+
+            var holes = [];
+            for (var index = 0; index < results.length; index++) {
+                var element = results[index];
+                holes.push({
+                    "type": "Feature",
+                    "properties": {
+                        "size": element.size,
+                        "show_on_map": true
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": element.location.coordinates
+                    }
+                });
+            }
+            if (req.params.format) { res.json(holes); } else {
+                console.log(holes);
                 var vm = {
-                    title: "Potholes List",
-                    results: results
+                    title: "Potholes map",
+                    results: holes
                 };
                 res.render('map', vm);
             }
