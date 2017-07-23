@@ -108,8 +108,8 @@ router.post('/sr_information', function(req, res) {
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
         img_url = process.env.DOMAIN + "/" + fk_phid + ".jpeg",
-        longitude = req.body.long,
-        latitude = req.body.lat;
+        longitude = parseFloat(req.body.long),
+        latitude = parseFloat(req.body.lat);
     // Create record for pothole
     mongoose.model('Sr').create({
         client_information: client_information,
