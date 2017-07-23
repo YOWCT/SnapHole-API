@@ -129,6 +129,22 @@ router.post('/sr_information', function(req, res) {
         }
     });
 });
+router.post('/size', function(req, res) {
+    var uuid = req.body.uuid;
+    var size = req.body.size;
+    mongoose.model('Sr').findOneAndUpdate({ fk_phid: uuid }, {
+        size: size
+    }, function(err, sr) {
+        if (err) {
+            res.send("There was a problem adding the information to the database.");
+            console.log(err)
+        } else {
+            //services.sendTicketToCity(fk_phid, latitude, longitude);
+            res.send(sr);
+        }
+    });
+});
+
 // POST Receive service request image and store
 router.post('/sr', function(req, res) {
     upload(req, res, function(err, file) {
