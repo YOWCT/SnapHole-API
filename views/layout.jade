@@ -4,10 +4,23 @@ html
     title= title
     script(src='https://code.jquery.com/jquery-3.2.0.min.js')
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css")
+    link(rel='stylesheet' href='/stylesheets/dashboard.css')
     link(rel='stylesheet' href='/stylesheets/style.css')
     block head
   body
-    block content
+    nav.navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
+      button.navbar-toggler.navbar-toggler-right.hidden-lg-up(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      a.navbar-brand(href='#') pOTThole
+      #navbarsExampleDefault.collapse.navbar-collapse
+        form.form-inline.mt-2.mt-md-0
+          input.form-control.mr-sm-2(type='text', placeholder='Search')
+          button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+    .container-fluid
+      .row
+        include partials/sidenav
+        main.col-sm-9.offset-sm-3.col-md-10.offset-md-2.pt-3
+          block content
     script(src='https://code.jquery.com/jquery-3.2.0.min.js')
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js")
     script(src="https://code.jquery.com/jquery-3.1.1.slim.min.js")

@@ -29,7 +29,7 @@ router.post('/login', function(req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Ottawa 311 App' });
+    res.render('index', { title: 'Ottawa 311 App', menu: "Home" });
 });
 
 router.get('/requests_by_type', function(req, res, next) {
@@ -81,12 +81,15 @@ router.get('/service_requests/:format?', function(req, res) {
             console.log(results)
             var vm = {
                 title: "Potholes List",
+                menu: "Requests",
                 results: results
             };
             if (req.params.format) { res.json(results); } else {
                 var vm = {
                     title: "Potholes List",
+                    menu: "Requests",
                     results: results
+
                 };
                 res.render('files', vm);
             }
@@ -120,6 +123,7 @@ router.get('/map/:format?', function(req, res) {
                 console.log(holes);
                 var vm = {
                     title: "Potholes map",
+                    menu: "Map",
                     results: holes
                 };
                 res.render('map', vm);
