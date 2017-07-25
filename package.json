@@ -2,7 +2,11 @@
     "name": "pothole_webserver",
     "version": "0.0.0",
     "license": "MIT",
-    "contributors": ["Thomas Devisscher <@devisscher>", "Phuc Duong <@phucduong86>", "Denis Carriere, <@DenisCarriere>"],
+    "contributors": [
+        "Thomas Devisscher <@devisscher>",
+        "Phuc Duong <@phucduong86>",
+        "Denis Carriere, <@DenisCarriere>"
+    ],
     "private": true,
     "repository": {
         "type": "git",
@@ -16,6 +20,7 @@
     },
     "dependencies": {
         "async": "^2.5.0",
+        "aws-sdk": "^2.89.0",
         "bluebird": "^3.5.0",
         "body-parser": "~1.16.0",
         "busboy": "^0.2.14",

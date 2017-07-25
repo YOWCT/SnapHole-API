@@ -1,4 +1,4 @@
-let {MAILGUN_KEY} = process.env;
+let { MAILGUN_KEY } = process.env;
 MAILGUN_KEY = MAILGUN_KEY || 'unknown-key'
 
 const domain = 'mg.esdev.xyz';

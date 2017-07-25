@@ -9,6 +9,9 @@ const express = require('express'),
     mongoose = require('mongoose'),
     helper = require('../services'),
     services = require('../services/services'),
+    aws = require('aws-sdk'),
+    http = require('http'),
+    fs = require('fs'),
     Sr = require('../models/sr');
 
 // URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
@@ -64,7 +67,16 @@ var storage = multer.diskStorage({
         callback(null, './uploads');
     },
     filename: function(req, file, callback) {
-
+        //console.log(req.files);
+        var Key = helper.guid()
+        var s3request = {
+            Body: file,
+            Bucket: 'devisscher',
+            Key: Key
+        };
+        s3.putObject(s3request, function(err, data) {
+            res.send("success");
+        });
         callback(null, file.originalname + ".jpeg");
 
     }
