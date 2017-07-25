@@ -4,7 +4,6 @@ var aws = require('aws-sdk'),
     path = require('path'),
     express = require('express'),
     mongoose = require('mongoose'),
-    //multipart = require('connect-multiparty'),
     helper = require('../services'),
     request = require('request'),
     router = express.Router();

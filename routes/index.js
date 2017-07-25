@@ -11,7 +11,8 @@ const express = require('express'),
     services = require('../services/services'),
     aws = require('aws-sdk'),
     Sr = require('../models/sr');
-
+aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
+var s3 = new aws.S3();
 // URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Ottawa 311 App Checkpoint' });
