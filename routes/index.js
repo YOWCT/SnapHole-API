@@ -10,8 +10,6 @@ const express = require('express'),
     helper = require('../services'),
     services = require('../services/services'),
     aws = require('aws-sdk'),
-    http = require('http'),
-    fs = require('fs'),
     Sr = require('../models/sr');
 
 // URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
