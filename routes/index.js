@@ -74,9 +74,9 @@ var storage = multer.diskStorage({
             Key: Key
         };
         s3.putObject(s3request, function(err, data) {
-            res.send("success");
+            callback(null, file.originalname + ".jpeg");
         });
-        callback(null, file.originalname + ".jpeg");
+
 
     }
 });
