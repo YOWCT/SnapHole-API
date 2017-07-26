@@ -69,18 +69,7 @@ var storage = multer.diskStorage({
         //console.log(req.files);
         //var Key = helper.guid()
 
-        var s3request = {
-            Body: file.buffer,
-            Bucket: 'devisscher',
-            Key: file.originalname + ".jpeg"
-        };
-        s3.putObject(s3request, function(err, data) {
-            if (err) {
-                console.log(err)
-            } else {
-                callback(null, file.originalname + ".jpeg");
-            }
-        });
+        callback(null, file.originalname + ".jpeg");
     }
 });
 
@@ -206,8 +195,20 @@ router.post('/sr', function(req, res) {
             console.log(err);
             return res.end("Error uploading file: %s", err);
         } else {
-            console.log()
-            res.send("success")
+            var s3request = {
+                Body: file.buffer,
+                Bucket: 'devisscher',
+                Key: file.originalname + ".jpeg"
+            };
+            s3.putObject(s3request, function(err, data) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log()
+                    res.send("success")
+                }
+            });
+
         }
     });
 });
