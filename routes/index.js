@@ -9,6 +9,7 @@ const express = require('express'),
     mongoose = require('mongoose'),
     helper = require('../services'),
     services = require('../services/services'),
+    multerS3 = require('multer-s3'),
     aws = require('aws-sdk'),
     Sr = require('../models/sr');
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
@@ -63,7 +64,20 @@ router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', functi
 // SR ROUTES
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
-        callback(null, './uploads');
+        var s3request = {
+            Body: file.buffer,
+            Bucket: 'devisscher',
+            Key: file.originalname + ".jpeg"
+        };
+        s3.putObject(s3request, function(err, data) {
+            if (err) {
+                console.log(err)
+            } else {
+
+                callback(null, './uploads');
+            }
+        });
+
     },
     filename: function(req, file, callback) {
         //console.log(req.files);
@@ -73,7 +87,21 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: storage }).single('userPhoto');
+var upload_fs = multer({ storage: storage }).single('userPhoto');
+
+var upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'devisscher',
+        key: function(req, file, cb) {
+            console.log(file);
+            cb(null, file.originalname); //use Date.now() for unique file keys
+        }
+    })
+});
+router.post('/upload', function(req, res, next) {
+    res.send("Uploaded!");
+});
 
 // GET All requests
 router.get('/service_requests/:format?', function(req, res) {
@@ -189,26 +217,15 @@ router.post('/size', function(req, res) {
 });
 
 // POST Receive service request image and store
-router.post('/sr', function(req, res) {
-    upload(req, res, function(err, file) {
+
+router.post('/sr', upload.array('userPhoto', 1), function(req, res) {
+    upload_fs(req, res, function(err, file) {
         if (err) {
             console.log(err);
             return res.end("Error uploading file: %s", err);
         } else {
-            var s3request = {
-                Body: req.file,
-                Bucket: 'devisscher',
-                Key: file.originalname + ".jpeg"
-            };
-            s3.putObject(s3request, function(err, data) {
-                if (err) {
-                    console.log(err)
-                } else {
-                    console.log()
-                    res.send("success")
-
-                }
-            });
+            console.log()
+            res.send("success")
 
         }
     });
