@@ -67,12 +67,12 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         //console.log(req.files);
-        var Key = helper.guid()
+        //var Key = helper.guid()
 
         var s3request = {
             Body: file.buffer,
             Bucket: 'devisscher',
-            Key: Key
+            Key: file.originalname
         };
         s3.putObject(s3request, function(err, data) {
             if (err) {
