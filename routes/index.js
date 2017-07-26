@@ -72,7 +72,7 @@ var storage = multer.diskStorage({
         var s3request = {
             Body: file.buffer,
             Bucket: 'devisscher',
-            Key: file.originalname
+            Key: file.originalname + ".jpeg"
         };
         s3.putObject(s3request, function(err, data) {
             if (err) {
