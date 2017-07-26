@@ -196,7 +196,7 @@ router.post('/sr', function(req, res) {
             return res.end("Error uploading file: %s", err);
         } else {
             var s3request = {
-                Body: file.buffer,
+                Body: req.file,
                 Bucket: 'devisscher',
                 Key: file.originalname + ".jpeg"
             };
@@ -206,6 +206,7 @@ router.post('/sr', function(req, res) {
                 } else {
                     console.log()
                     res.send("success")
+
                 }
             });
 
