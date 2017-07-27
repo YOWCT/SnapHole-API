@@ -1,4 +1,4 @@
-# PotHole WebServer
+# SnapHole API Server
 
 An app that receives a photo from a client app and sends a request to the City of Ottawa for pot hole repair.
 
@@ -7,17 +7,17 @@ An app that receives a photo from a client app and sends a request to the City o
 To quickly get a development server up and running, we are going to be using [Docker](https://docs.docker.com/engine/installation/) & [Docker Compose](https://docs.docker.com/compose/install/) to set up our `pothole webserver` online.
 
 ```
-$ git clone git@github.com:YOWCT/pothole_webserver.git
-$ cd pothole_webserver
+$ git clone git@github.com:YOWCT/SnapHole-API.git
+$ cd SnapHole-API
 $ docker-compose build
 $ docker-compose up
 
-pothole    | > pothole_webserver@0.0.0 prestart /usr/src/app
+pothole    | > SnapHole-API@0.0.0 prestart /usr/src/app
 pothole    | > jsdoc services/index.js -d public/docs
 pothole    |
-pothole    | npm info lifecycle pothole_webserver@0.0.0~start: pothole_webserver@0.0.0
+pothole    | npm info lifecycle SnapHole-API@0.0.0~start: SnapHole-API@0.0.0
 pothole    |
-pothole    | > pothole_webserver@0.0.0 start /usr/src/app
+pothole    | > SnapHole-API@0.0.0 start /usr/src/app
 pothole    | > node ./bin/www
 pothole    |
 pothole    | server running on port: 8089
@@ -25,7 +25,7 @@ pothole    | server running on port: 8089
 
 Using your favorite web browser visit [`http://localhost:8089`](http://localhost:8089).
 
-![PotHole-Preview](images/PotHole-Preview.png)
+![SnapHole-Preview](images/PotHole-Preview.png)
 
 ## Full Install
 
@@ -34,8 +34,8 @@ Using your favorite web browser visit [`http://localhost:8089`](http://localhost
 You must first install all dependencies using the [latest version of NodeJS](https://nodejs.org/en/).
 
 ```bash
-$ git clone git@github.com:YOWCT/pothole_webserver.git
-$ cd pothole_webserver
+$ git clone git@github.com:YOWCT/SnapHole-API.git
+$ cd SnapHole-API
 $ npm install
 ```
 
@@ -91,11 +91,11 @@ FROM_EMAIL=ott311@esdev.xyz
 ```bash
 $ npm start
 
-> pothole_webserver@0.0.0 prestart /Users/mac/Github/pothole_webserver
+> SnapHole-API@0.0.0 prestart /Users/mac/Github/SnapHole-API
 > jsdoc services/index.js -d public/docs
 
 
-> pothole_webserver@0.0.0 start /Users/mac/Github/pothole_webserver
+> SnapHole-API@0.0.0 start /Users/mac/Github/SnapHole-API
 > node ./bin/www
 
 server running on port: 8089
