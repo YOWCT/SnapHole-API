@@ -6,6 +6,7 @@ var srSchema = new Schema({
     timestamp: { type: Date, Default: Date.now() },
     fk_phid: String,
     img_url: String,
+    imgur_url: String,
     size: String,
     location: {
         type: { type: String },

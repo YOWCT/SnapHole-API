@@ -10,6 +10,7 @@ const express = require('express'),
     fs = require('fs-extra'),
     mongoose = require('mongoose'),
     helper = require('../services'),
+    imgur = require('../services/imgur'),
     auth = require('../services/auth'),
     services = require('../services/services'),
     multerS3 = require('multer-s3'),
@@ -50,32 +51,32 @@ router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', auth.l
 });
 
 // SR ROUTES
-var storage = multer.diskStorage({
-    destination: function(req, file, callback) {
-        var s3request = {
-            Body: file.buffer,
-            Bucket: AWS_BUCKET,
-            Key: file.originalname + ".jpeg"
-        };
-        s3.putObject(s3request, function(err, data) {
-            if (err) {
-                console.log(err)
-            } else {
+// var storage = multer.diskStorage({
+//     destination: function(req, file, callback) {
+//         var s3request = {
+//             Body: file.buffer,
+//             Bucket: AWS_BUCKET,
+//             Key: file.originalname + ".jpeg"
+//         };
+//         s3.putObject(s3request, function(err, data) {
+//             if (err) {
+//                 console.log(err)
+//             } else {
 
-                callback(null, './uploads');
-            }
-        });
+//                 callback(null, './uploads');
+//             }
+//         });
 
-    },
-    filename: function(req, file, callback) {
-        //console.log(req.files);
-        //var Key = helper.guid()
+//     },
+//     filename: function(req, file, callback) {
+//         //console.log(req.files);
+//         //var Key = helper.guid()
 
-        callback(null, file.originalname + ".jpeg");
-    }
-});
+//         callback(null, file.originalname + ".jpeg");
+//     }
+// });
 
-var upload_fs = multer({ storage: storage }).single('userPhoto');
+//var upload_fs = multer({ storage: storage }).single('userPhoto');
 
 var upload = multer({
     storage: multerS3({
@@ -83,13 +84,13 @@ var upload = multer({
         bucket: AWS_BUCKET,
         ACL: 'public-read',
         key: function(req, file, cb) {
-            console.log(file);
+            //console.log(file);
+
             cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
         }
+
     })
-});
-router.post('/upload', function(req, res, next) {
-    res.send("Uploaded!");
+
 });
 
 // GET All requests
@@ -168,6 +169,7 @@ router.post('/sr_information', function(req, res) {
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
         img_url = `https: //s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+        imgur_url = `https: //s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         longitude = parseFloat(req.body.long),
         latitude = parseFloat(req.body.lat);
     // Create record for pothole
@@ -189,6 +191,7 @@ router.post('/sr_information', function(req, res) {
         }
     });
 });
+
 router.post('/size', function(req, res) {
     var uuid = req.body.uuid;
     var size = req.body.size;
@@ -206,18 +209,10 @@ router.post('/size', function(req, res) {
 });
 
 // POST Receive service request image and store
+var upload = multer({ dest: 'uploads/' })
 
-router.post('/sr', upload.array('userPhoto', 1), function(req, res) {
-    upload_fs(req, res, function(err, file) {
-        if (err) {
-            console.log(err);
-            return res.end("Error uploading file: %s", err);
-        } else {
-            console.log()
-            res.send("success")
-
-        }
-    });
+router.post('/sr', upload.single('userPhoto'), function(req, res) {
+    res.send("SUCCESS")
 });
 // GET One request
 router.get('/sr/:id', function(req, res) {
