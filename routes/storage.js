@@ -8,10 +8,12 @@ var aws = require('aws-sdk'),
     request = require('request'),
     router = express.Router();
 var Upload = require('../models/sr');
-//var dotenv = require('dotenv').config();
-// TODO Add config variables to environment variables
-//var config_path = path.join(__dirname, '../s3auth.json');
-// Instantiate S3 Client
+
+let { AWS_BUCKET } = process.env
+    //var dotenv = require('dotenv').config();
+    // TODO Add config variables to environment variables
+    //var config_path = path.join(__dirname, '../s3auth.json');
+    // Instantiate S3 Client
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
 var s3 = new aws.S3();
 // Process Multipart Forms
@@ -20,7 +22,7 @@ var s3 = new aws.S3();
 // GET Index list objects in bucket
 router.get('/', function(req, res) {
     var params = {
-        Bucket: 'devisscher',
+        Bucket: AWS_BUCKET,
         Delimiter: '/',
         Prefix: ''
     }
@@ -47,7 +49,7 @@ router.get('/show/:id', function(req, res) {
 // GET Download file
 router.get('/download/:id', function(req, res) {
     var options = {
-        Bucket: 'devisscher',
+        Bucket: AWS_BUCKET,
         Key: req.params.id
     };
     s3.getObject(options, function(err, data) {

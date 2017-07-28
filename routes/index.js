@@ -1,5 +1,7 @@
 "use strict"
 // Lib requires
+
+let { AWS_BUCKET } = process.env
 const express = require('express'),
     router = express.Router(),
     request = require('request'),
@@ -14,6 +16,8 @@ const express = require('express'),
     Sr = require('../models/sr');
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
 var s3 = new aws.S3();
+
+
 // URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Ottawa 311 App Checkpoint' });
@@ -66,7 +70,7 @@ var storage = multer.diskStorage({
     destination: function(req, file, callback) {
         var s3request = {
             Body: file.buffer,
-            Bucket: 'devisscher',
+            Bucket: AWS_BUCKET,
             Key: file.originalname + ".jpeg"
         };
         s3.putObject(s3request, function(err, data) {
@@ -92,7 +96,7 @@ var upload_fs = multer({ storage: storage }).single('userPhoto');
 var upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'devisscher',
+        bucket: AWS_BUCKET,
         ACL: 'public-read',
         key: function(req, file, cb) {
             console.log(file);
@@ -179,7 +183,7 @@ router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
-        img_url = process.env.DOMAIN + "/" + fk_phid + ".jpeg",
+        img_url = `https://s3.console.aws.amazon.com/s3/${process.env.AWS_BUCKET}/devisscher/${fk_phid}.jpeg?region=us-west-2&tab=overview`,
         longitude = parseFloat(req.body.long),
         latitude = parseFloat(req.body.lat);
     // Create record for pothole
