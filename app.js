@@ -12,7 +12,8 @@ mongoose.Promise = require('bluebird');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var storage = require('./routes/storage');
-var cookieSession = require('cookie-session')
+var cookieSession = require('cookie-session');
+let { AWS_BUCKET, APP_NAME } = process.env;
 var app = express();
 app.use(cookieSession({
     name: 'session',
@@ -21,7 +22,7 @@ app.use(cookieSession({
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.locals.APP_NAME = APP_NAME;
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

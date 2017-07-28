@@ -1,7 +1,7 @@
 "use strict"
 // Lib requires
 
-let { AWS_BUCKET } = process.env;
+let { AWS_BUCKET, APP_NAME } = process.env;
 const express = require('express'),
     router = express.Router(),
     request = require('request'),
@@ -20,7 +20,7 @@ var s3 = new aws.S3();
 
 // URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'Ottawa 311 App Checkpoint' });
+    res.render('login', { title: APP_NAME });
 });
 
 router.post('/login', function(req, res) {
@@ -36,7 +36,7 @@ router.post('/login', function(req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Ottawa 311 App', menu: "Home" });
+    res.render('index', { title: APP_NAME, menu: "Home" });
 });
 
 router.get('/requests_by_type', function(req, res, next) {
@@ -116,7 +116,7 @@ router.get('/service_requests/:format?', function(req, res) {
         } else {
             console.log(results)
             var vm = {
-                title: "Potholes List",
+                title: `${APP_NAME} + List"`,
                 menu: "Requests",
                 results: results
             };
@@ -183,7 +183,8 @@ router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
-        img_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+        img_url = `
+                                https: //s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         longitude = parseFloat(req.body.long),
         latitude = parseFloat(req.body.lat);
     // Create record for pothole
