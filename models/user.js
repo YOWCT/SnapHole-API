@@ -29,7 +29,8 @@ var userSchema = new Schema({
     },
     tokenExpire: {
         type: Date
-    }
+    },
+    message: { type: String, default: null }
 });
 
 userSchema.plugin(passportLocalMongoose);

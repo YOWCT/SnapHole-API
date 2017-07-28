@@ -27,6 +27,7 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     var vm = {
         title: `${APP_NAME} - Login`,
+        message: req.session.message || ""
     }
     res.render('users/login', vm);
 });
@@ -148,7 +149,8 @@ router.get('/activate/:token', function(req, res) {
                 title: `${APP_NAME} - Account activation`,
                 toke: req.params.token,
                 user: user,
-                status: "Valid"
+                status: "Valid",
+                message: req.session.message || ""
             }
 
         } else {
@@ -179,7 +181,7 @@ router.post('/activate/:token', function(req, res) {
                 });
                 user.token = undefined;
                 user.tokenExpire = undefined;
-
+                req.session.message = null
                 user.save(function(err) {
                     req.logIn(user, function(err) {
                         done(err, user);
@@ -208,8 +210,9 @@ router.post('/forgot', function(req, res, next) {
                         return res.redirect('/users/forgot');
                     }
 
-                    user.resetPasswordToken = token;
-                    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                    user.token = token;
+                    user.tokenExpire = Date.now() + 3600000; // 1 hour
+                    req.session.message = "We sent you an email."
                     user.save(function(err) {
                         done(err, token, user);
                     });
@@ -234,12 +237,13 @@ router.post('/forgot', function(req, res, next) {
                 });
             },
             function(token, user, done) {
-                res.redirect('/')
+
+                res.redirect('/users/login')
             }
         ],
         function(err) {
             if (err) return next(err);
-            res.redirect('/account/forgot');
+            res.redirect('/users/forgot');
         });
 });
 module.exports = router;
