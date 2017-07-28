@@ -6,7 +6,8 @@ var aws = require('aws-sdk'),
     mongoose = require('mongoose'),
     helper = require('../services'),
     request = require('request'),
-    router = express.Router();
+    router = express.Router(),
+    auth = require('../services/auth');
 var Upload = require('../models/sr');
 
 let { AWS_BUCKET } = process.env;

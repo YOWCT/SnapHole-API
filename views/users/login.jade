@@ -1,0 +1,17 @@
+extends ../partials/layout.jade
+block content
+    h1.page-header= title
+    .col-md-4
+        form(action="login" method="post")
+            .form-group
+                label(for="username") Email
+                input#username.form-control(type="email" name="username" placeholder="Email")
+            .form-group
+                label(for="password") Password
+                input#password.form-control(type="password" name="password" placeholder="Password")
+            input(type="submit")
+            | 
+            a#register(href="register") Register
+            | 
+            a#register(href="forgot") Forgot
+        

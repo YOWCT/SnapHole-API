@@ -1,0 +1,10 @@
+extends ../partials/layout.jade
+block content
+    h1= title
+    p 👻 👻 👻 👻 👻 👻 👻 👻 
+    .col-md-4
+        form(action="forgot" method="post")
+            .form-group
+                label(for="email") Enter the email associated to your account
+                input#email.form-control(type="email" placeholder='Email' name="username")
+            input(type="submit")

@@ -10,6 +10,7 @@ const express = require('express'),
     fs = require('fs-extra'),
     mongoose = require('mongoose'),
     helper = require('../services'),
+    auth = require('../services/auth'),
     services = require('../services/services'),
     multerS3 = require('multer-s3'),
     aws = require('aws-sdk'),
@@ -17,25 +18,8 @@ const express = require('express'),
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
 var s3 = new aws.S3();
 
-
-// URL to send requests to the city: https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json
-router.get('/login', function(req, res, next) {
-    res.render('login', { title: APP_NAME });
-});
-
-router.post('/login', function(req, res) {
-    var password = req.body.password;
-    if (password == "admin") {
-        req.session.password = password;
-        res.redirect('/service_requests');
-    } else {
-        res.redirect('/login')
-    }
-
-});
-
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.loggedIn, function(req, res, next) {
     res.render('index', { title: APP_NAME, menu: "Home" });
 });
 
@@ -44,7 +28,7 @@ router.get('/requests_by_type', function(req, res, next) {
     request('https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json', function(error, response, body) {
         console.log('error:', error); // Print the error if one occurred 
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
-        console.log('body:', body); // Print the HTML for the Google homepage.
+        //console.log('body:', body); // Print the HTML for the Google homepage.
         var clean_body = JSON.parse(body);
         var original = clean_body.map(function(a) { return a.service_name; });
         var compressed = helper.compressArray(original);

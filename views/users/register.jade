@@ -1,0 +1,15 @@
+extends ../partials/layout.jade
+block content
+    h1= title 
+    .col-md-4
+        form(action="register" method="post")
+            .form-group
+                label(for="first_name") First name
+                input#first_name.form-control(type="text" placeholder='First name' name="first_name")
+            .form-group
+                label(for="last_name") Last name
+                input#last_name.form-control(type="text" placeholder='Last name' name="last_name")
+            .form-group
+                label(for="email") Email
+                input#email.form-control(type="email" placeholder='Email address' name="email")
+            input(type="submit")

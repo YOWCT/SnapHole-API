@@ -6,7 +6,12 @@ const mailgun = require('mailgun-js')({ apiKey: MAILGUN_KEY, domain: domain });
 
 exports.sendEmail = (data) => {
     mailgun.messages().send(data, (error, body) => {
-        console.log(body);
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(body);
+        }
+
     });
-    console.log(data);
+    //console.log(data);
 }

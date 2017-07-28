@@ -1,0 +1,17 @@
+extends ../partials/layout.jade
+block content
+    h1= title
+    if status == "Valid"
+        p Hi #{user.first_name} #{user.last_name},
+        p Thank you for registering to #{APP_NAME}, please set a password for your account. 
+        .col-md-4
+            form(action="#{user.token}" method="post")
+                .form-group
+                    label(for="pass1") Password
+                    input#pass1.form-control(type="text" placeholder='Password' name="password")
+                .form-group
+                    label(for="pass1") Confirm password
+                    input#pass1.form-control(type="text" placeholder='Confirm password' name="pass2")
+                input(type="submit")
+    else
+        p 😡 😡 😡 😡 😡

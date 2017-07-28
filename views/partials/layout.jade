@@ -11,14 +11,23 @@ html
     nav.navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
       button.navbar-toggler.navbar-toggler-right.hidden-lg-up(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-      a.navbar-brand(href='#')= title
-      #navbarsExampleDefault.collapse.navbar-collapse
-        form.form-inline.mt-2.mt-md-0
+      a.navbar-brand(href='#')
+        img(src="/images/logo.png" width="30" height="30" alt="")
+      .collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.right
+          if user
+            li.nav-item
+              a.nav-link(href="/users/logout") Logout
+          else
+            li.nav-item
+              a.nav-link(href="/users/logout") Login
+        form.form-inline.my-2.my-lg-0
           input.form-control.mr-sm-2(type='text', placeholder='Search')
           button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+        
     .container-fluid
       .row
-        include partials/sidenav
+        include sidenav
         main.col-sm-9.offset-sm-3.col-md-10.offset-md-2.pt-3
           block content
     script(src='https://code.jquery.com/jquery-3.2.0.min.js')

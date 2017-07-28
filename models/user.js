@@ -1,11 +1,10 @@
 'use strict'
-
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
-
+    Schema = mongoose.Schema,
+    passportLocalMongoose = require('passport-local-mongoose');
 
 /* User Schema - Basic info */
-var UserSchema = new Schema({
+var userSchema = new Schema({
     first_name: {
         type: String,
         required: true,
@@ -14,7 +13,7 @@ var UserSchema = new Schema({
         type: String,
         required: true,
     },
-    email: {
+    username: {
         type: String,
         unique: true,
         lowercase: true,
@@ -33,4 +32,5 @@ var UserSchema = new Schema({
     }
 });
 
-mongoose.model('User', UserSchema);
+userSchema.plugin(passportLocalMongoose);
+module.exports = mongoose.model('User', userSchema);
