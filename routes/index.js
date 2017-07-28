@@ -93,6 +93,7 @@ var upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'devisscher',
+        CannedACL = 'S3CannedACL.PublicRead',
         key: function(req, file, cb) {
             console.log(file);
             cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
