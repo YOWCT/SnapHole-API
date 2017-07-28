@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
     if (APP_NAME) {
         app.locals.APP_NAME = APP_NAME
     }
+    next()
 })
 
 app.use(logger('dev'));
