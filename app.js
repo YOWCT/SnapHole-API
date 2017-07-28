@@ -22,7 +22,12 @@ app.use(cookieSession({
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.locals.APP_NAME = APP_NAME;
+app.use(function(req, res, next) {
+    if (APP_NAME) {
+        app.locals.APP_NAME = APP_NAME
+    }
+})
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
