@@ -209,7 +209,16 @@ router.post('/size', function(req, res) {
 });
 
 // POST Receive service request image and store
-var upload = multer({ dest: 'uploads/' })
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, '/uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '.jpeg');
+    }
+})
+
+var upload = multer({ storage: storage })
 
 router.post('/sr', upload.single('userPhoto'), function(req, res) {
     res.send("SUCCESS")
