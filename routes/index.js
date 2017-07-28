@@ -1,7 +1,7 @@
 "use strict"
 // Lib requires
 
-let { AWS_BUCKET } = process.env
+let { AWS_BUCKET } = process.env;
 const express = require('express'),
     router = express.Router(),
     request = require('request'),

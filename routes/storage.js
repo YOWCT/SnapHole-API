@@ -9,11 +9,11 @@ var aws = require('aws-sdk'),
     router = express.Router();
 var Upload = require('../models/sr');
 
-let { AWS_BUCKET } = process.env
-    //var dotenv = require('dotenv').config();
-    // TODO Add config variables to environment variables
-    //var config_path = path.join(__dirname, '../s3auth.json');
-    // Instantiate S3 Client
+let { AWS_BUCKET } = process.env;
+//var dotenv = require('dotenv').config();
+// TODO Add config variables to environment variables
+//var config_path = path.join(__dirname, '../s3auth.json');
+// Instantiate S3 Client
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
 var s3 = new aws.S3();
 // Process Multipart Forms
