@@ -53,7 +53,12 @@ router.get('/download/:id', function(req, res) {
         Key: req.params.id
     };
     s3.getObject(options, function(err, data) {
-        res.send(data.Body);
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(data.Body);
+        }
+
     });
 });
 
