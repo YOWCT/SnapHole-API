@@ -6,13 +6,13 @@ const express = require('express'),
     router = express.Router(),
     request = require('request'),
     path = require('path'),
-    multer = require('multer'),
     fs = require('fs-extra'),
     mongoose = require('mongoose'),
     helper = require('../services'),
     imgur = require('../services/imgur'),
     auth = require('../services/auth'),
     services = require('../services/services'),
+    myCustomStorage = require('../services/storage'),
     multerS3 = require('multer-s3'),
     aws = require('aws-sdk'),
     Sr = require('../models/sr');
@@ -78,20 +78,7 @@ router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', auth.l
 
 //var upload_fs = multer({ storage: storage }).single('userPhoto');
 
-var upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: AWS_BUCKET,
-        ACL: 'public-read',
-        key: function(req, file, cb) {
-            //console.log(file);
 
-            cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
-        }
-
-    })
-
-});
 
 // GET All requests
 router.get('/service_requests/:format?', auth.loggedIn, function(req, res) {
@@ -207,21 +194,25 @@ router.post('/size', function(req, res) {
         }
     });
 });
+const multer = require('multer');
+var upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: AWS_BUCKET,
+        ACL: 'public-read',
+        key: function(req, file, cb) {
+            //console.log(file);
+            cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
+        }
 
-// POST Receive service request image and store
-var storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, '/uploads')
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + '.jpeg');
-    }
-})
+    })
 
-var upload = multer({ storage: storage })
+});
 
-router.post('/sr', upload.single('userPhoto'), function(req, res) {
-    res.send("SUCCESS")
+
+
+router.post('/sr', upload.array('userPhoto', 1), function(req, res) {
+    res.send("Success")
 });
 // GET One request
 router.get('/sr/:id', function(req, res) {
