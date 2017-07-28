@@ -23,7 +23,7 @@ router.get('/', auth.loggedIn, function(req, res, next) {
     res.render('index', { title: APP_NAME, menu: "Home" });
 });
 
-router.get('/requests_by_type', function(req, res, next) {
+router.get('/requests_by_type', auth.loggedIn, function(req, res, next) {
     // get our data    
     request('https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json', function(error, response, body) {
         console.log('error:', error); // Print the error if one occurred 
@@ -37,7 +37,7 @@ router.get('/requests_by_type', function(req, res, next) {
 });
 
 
-router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', function(req, res, next) {
+router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', auth.loggedIn, function(req, res, next) {
     // get our data    
     var start_date = "2017-01-01T00:00:00Z";
     var end_date = "2017-03-20T00:00:00Z";
@@ -93,7 +93,7 @@ router.post('/upload', function(req, res, next) {
 });
 
 // GET All requests
-router.get('/service_requests/:format?', function(req, res) {
+router.get('/service_requests/:format?', auth.loggedIn, function(req, res) {
     mongoose.model('Sr').find({}, function(err, results) {
         if (err) {
             console.log(err);
@@ -227,7 +227,7 @@ router.get('/sr/:id', function(req, res) {
     });
 });
 // GET Delete request
-router.get('/delete/:id', helper.isAdmin, function(req, res) {
+router.get('/delete/:id', auth.loggedIn, helper.isAdmin, function(req, res) {
     mongoose.model('Sr').remove({ _id: req.params.id }, function(err) {
         if (err) {
             res.send("There was a problem updating the information to the database: " + err);

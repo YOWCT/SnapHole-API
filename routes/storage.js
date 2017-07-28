@@ -21,7 +21,7 @@ var s3 = new aws.S3();
 //var multipartMiddleware = multipart();
 
 // GET Index list objects in bucket
-router.get('/', function(req, res) {
+router.get('/', auth.loggedIn, function(req, res) {
     var params = {
         Bucket: AWS_BUCKET,
         Delimiter: '/',
@@ -33,7 +33,7 @@ router.get('/', function(req, res) {
     });
 });
 // GET List Buckets
-router.get('/buckets', function(req, res) {
+router.get('/buckets', auth.loggedIn, function(req, res) {
     s3.listBuckets(function(err, data) {
         if (err) {
             res.json(err);
@@ -44,11 +44,11 @@ router.get('/buckets', function(req, res) {
     });
 });
 // GET Display Object view
-router.get('/show/:id', function(req, res) {
+router.get('/show/:id', auth.loggedIn, function(req, res) {
 
 });
 // GET Download file
-router.get('/download/:id', function(req, res) {
+router.get('/download/:id', auth.loggedIn, function(req, res) {
     var options = {
         Bucket: AWS_BUCKET,
         Key: req.params.id
