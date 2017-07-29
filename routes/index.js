@@ -164,7 +164,9 @@ router.post('/sr_information', function(req, res) {
         client_information: client_information,
         timestamp: Date.now(),
         fk_phid: fk_phid,
+        img_name: img_name,
         img_url: img_url,
+        imgur_url: imgur_url,
         location: { type: "Point", coordinates: [longitude, latitude] },
         longitude: longitude,
         latitude: latitude
