@@ -5,6 +5,7 @@ block content
         p Hi #{user.first_name} #{user.last_name},
         p Thank you for registering to #{APP_NAME}, please set a password for your account. 
         .col-md-4
+            input#token(type="text" value="#{user.token}" disabled)
             form(action="#{user.token}" method="post")
                 .form-group
                     label(for="pass1") Password
@@ -13,15 +14,17 @@ block content
                     label(for="pass1") Confirm password
                     input#pass1.form-control(type="password" placeholder='Confirm password' name="pass2")
                 input(type="submit")
+        
     else
         p 😡 😡 😡 😡 😡
+    
     script.
         $(document).ready(function() {
-
+            var token = $('#token').val();
             var user_agent_header = navigator.userAgent;
 
             if(user_agent_header.indexOf('iPhone')!=-1 || user_agent_header.indexOf('iPod')!=-1 || user_agent_header.indexOf('iPad')!=-1){
-                setTimeout(function() { window.location="snapHole://";}, 25);
+                setTimeout(function() { window.location="snapHole://" +token;}, 25);
             }
 
         });

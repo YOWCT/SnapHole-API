@@ -14,7 +14,7 @@ var express = require('express'),
     auth = require('../services/auth');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', auth.loggedIn, function(req, res, next) {
     query = {};
     User.find(query, function(err, users) {
         if (err) {
