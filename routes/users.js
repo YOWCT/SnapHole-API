@@ -101,42 +101,20 @@ router.post('/register', function(req, res, next) {
                     }
                     done(null, token, user);
                 });
-
-                /*    /// CREATE EMAIL FOR CONFIRMATION AND LOGIN OF USER ON THE PHONE
-                    const templateDir = path.join(__dirname, '../emails', 'activate');
-                    const forgot = new EmailTemplate(templateDir);
-                    const link = process.env.DOMAIN_NAME + '/account/activate/' + token //changed reset to activate
-                    const info = { email: user.email, link: link }
-                    forgot.render(info, function(err, result) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            let options = {
-                                to: user.email,
-                                bcc: process.env.DEVELOPER,
-                                from: process.env.FROM_EMAIL,
-                                subject: 'Account activation: ' + user.email,
-                                text: "Please use the following link to activate your account: " + info.link,
-                                body: result.html
-                            }
-                            helpers.sendEmailThroughSendGrid(options);
-                            console.log("User's email is: " + user.email)
-                        }
-                    });
-
-                    */
             },
             // Respond to client app
             function(token, user, done) {
-                //    req.flash('success', 'We sent you an email with further instructions')
+
 
                 done(null, "done");
             }
         ],
         function(err, result) {
             if (result == 'done') {
-                res.redirect('/')
+                req.flash('success', 'We sent you an email with further instructions.')
+                res.redirect('/users/login')
             } else {
+                req.flash('error', 'There was an error.')
                 res.send('error')
             }
 
@@ -237,7 +215,7 @@ router.post('/forgot', function(req, res, next) {
                 });
             },
             function(token, user, done) {
-
+                req.flash("info", "We sent you an email with further instructions.")
                 res.redirect('/users/login')
             }
         ],
