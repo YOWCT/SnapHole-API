@@ -12,9 +12,9 @@ const express = require('express'),
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-index = require('./routes/index'),
+// Routes
+const index = require('./routes/index'),
     users = require('./routes/users'),
-    storage = require('./routes/storage'),
     cookieSession = require('cookie-session'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
@@ -61,8 +61,11 @@ app.use(function(req, res, next) {
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
     limit: '5mb',
-    extended: true
+    extended: true,
+    keepExtensions: true,
+    uploadDir: path.join(__dirname, 'uploads')
 }));
+
 app.use(bodyParser.json());
 
 app.use(cookieParser());
@@ -70,7 +73,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use('/', index);
 app.use('/users', users);
-app.use('/storage', storage);
 
 
 

@@ -1,13 +1,5 @@
 var fs = require('fs-extra');
 
-exports.isAdmin = function(req, res, next) {
-    if (req.session.password == "admin") {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
 /**
  * Pass directory path
  * Return list of files in directory
@@ -38,7 +30,6 @@ function s4() {
         .toString(16)
         .substring(1);
 }
-
 
 function directoryExists(path) {
     try {

@@ -70,8 +70,10 @@ router.post('/register', function(req, res, next) {
                     function(err, user) {
                         if (err) {
                             console.log(`################# ${err} #################`)
+                            req.session.message = "Problem creating your account."
                             done(null, token, err)
                         } else {
+                            req.session.message = "Check your email, we sent you a message."
                             done(null, token, user)
                         }
 

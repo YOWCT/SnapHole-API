@@ -1,7 +1,7 @@
 "use strict"
 // Lib requires
 
-let { AWS_BUCKET, APP_NAME } = process.env;
+let { AWS_BUCKET, APP_NAME, IMGUR_CLIENT_ID } = process.env;
 const express = require('express'),
     router = express.Router(),
     request = require('request'),
@@ -9,11 +9,10 @@ const express = require('express'),
     fs = require('fs-extra'),
     mongoose = require('mongoose'),
     helper = require('../services'),
-    imgur = require('../services/imgur'),
+    storage = require('../services/storage'),
     auth = require('../services/auth'),
     services = require('../services/services'),
-    myCustomStorage = require('../services/storage'),
-    multerS3 = require('multer-s3'),
+    multer = require('multer'),
     aws = require('aws-sdk'),
     Sr = require('../models/sr');
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
@@ -155,6 +154,7 @@ router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
+        img_name = `${req.body.uuid}.jpeg`,
         img_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         imgur_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         longitude = parseFloat(req.body.long),
@@ -194,25 +194,48 @@ router.post('/size', function(req, res) {
         }
     });
 });
-const multer = require('multer');
-var upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: AWS_BUCKET,
-        ACL: 'public-read',
-        key: function(req, file, cb) {
-            //console.log(file);
-            cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
-        }
-
-    })
-
-});
 
 
+// const multer = require('multer');
+// var upload = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: AWS_BUCKET,
+//         ACL: 'public-read',
+//         key: function(req, file, cb) {
+//             console.log(file);
+//             cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
+//         }
 
-router.post('/sr', upload.array('userPhoto', 1), function(req, res) {
-    res.send("Success")
+//     })
+
+// });
+
+// var fs_storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './uploads')
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, Date.now() + '.jpeg')
+//     }
+// })
+
+// var upload = multer({ storage: fs_storage })
+var fs_storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + '.jpg')
+    }
+})
+
+var upload = multer({ storage: fs_storage })
+
+router.post('/sr', upload.single('userPhoto'), function(req, res) {
+    storage.uploadS3(req, res)
+    storage.saveToDatabase(req, res)
+    res.send("success")
 });
 // GET One request
 router.get('/sr/:id', function(req, res) {

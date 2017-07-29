@@ -1,34 +1,72 @@
-var fs = require('fs')
+let { IMGUR_EMAIL, IMGUR_CLIENT_ID, IMGUR_CLIENT_SECRET, IMGUR_PASSWORD, AWS_BUCKET } = process.env;
+var fs = require('fs'),
+    request = require('request'),
+    path = require('path'),
+    aws = require('aws-sdk'),
+    mongoose = require('mongoose'),
+    Sr = require('../models/sr')
+aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
 
-function getDestination(req, file, cb) {
-    cb(null, '/dev/null')
+var s3 = new aws.S3();
+
+// ENCODE base64
+function base64_encode(file) {
+    // read binary data
+    var image = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(image).toString('base64');
 }
 
-function MyCustomStorage(opts) {
-    this.getDestination = (opts.destination || getDestination)
+
+// Upload to MongoDB must be less than 16MB
+exports.saveToDatabase = function(req, res) {
+    console.log(req.file)
+    var image = base64_encode(path.join(req.file.path));
+    mongoose.model('Sr').findOneAndUpdate({ img_name: req.file.filename }, { img_base64: image }, function(err, sr) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(sr)
+        }
+    });
 }
 
-MyCustomStorage.prototype._handleFile = function _handleFile(req, file, cb) {
-    this.getDestination(req, file, function(err, path) {
-        if (err) return cb(err)
 
-        var outStream = fs.createWriteStream(path)
 
-        file.stream.pipe(outStream)
-        outStream.on('error', cb)
-        outStream.on('finish', function() {
-            cb(null, {
-                path: path,
-                size: outStream.bytesWritten
-            })
-        })
+
+// Upload to s3
+exports.uploadS3 = function(req, res) {
+    console.log(req.file.path)
+    var image = fs.readFileSync(path.join(req.file.path));
+    console.log(image)
+    var params = {
+        Body: image,
+        Bucket: AWS_BUCKET,
+        Key: req.file.originalname,
+        ServerSideEncryption: "AES256"
+    };
+    s3.putObject(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data); // successful response
+    });
+}
+
+// Upload to imgur
+exports.uploadImgur = function(req, res) {
+    var image = base64_encode(req.file.path)
+    var headers = {
+        'authorization': `Client-ID ${IMGUR_CLIENT_ID}`
+            //'Authorization': `Bearer ${YOUR_ACCESS_TOKEN}`
+    }
+    console.log(req.file)
+    console.log(image)
+    request.post({ url: 'https://api.imgur.com/3/', form: { image: image }, headers: headers }, function(err, httpResponse, body) {
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log(httpResponse);
+            console.log(httpResponse);
+        }
+        console.log("done")
     })
-}
-
-MyCustomStorage.prototype._removeFile = function _removeFile(req, file, cb) {
-    fs.unlink(file.path, cb)
-}
-
-module.exports = function(opts) {
-    return new MyCustomStorage(opts)
 }
