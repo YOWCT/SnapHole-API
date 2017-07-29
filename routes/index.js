@@ -155,8 +155,8 @@ router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
         timestamp = Date.now(),
         fk_phid = req.body.uuid,
-        img_url = `https: //s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
-        imgur_url = `https: //s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+        img_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+        imgur_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         longitude = parseFloat(req.body.long),
         latitude = parseFloat(req.body.lat);
     // Create record for pothole
