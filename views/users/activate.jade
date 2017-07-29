@@ -16,8 +16,12 @@ block content
     else
         p 😡 😡 😡 😡 😡
     script.
-        window.location = 'snapHole://'; // will result in error message if app not installed
-        setTimeout(function() {
-        // Link to the App Store should go here -- only fires if deep link fails                
-        window.location = "https://itunes.apple.com/us/app/myapp/id123456789?ls=1&mt=8";
-        }, 500);
+        $(document).ready(function() {
+
+            var user_agent_header = navigator.userAgent;
+
+            if(user_agent_header.indexOf('iPhone')!=-1 || user_agent_header.indexOf('iPod')!=-1 || user_agent_header.indexOf('iPad')!=-1){
+                setTimeout(function() { window.location="snapHole://";}, 25);
+            }
+
+        });
