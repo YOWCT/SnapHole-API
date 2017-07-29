@@ -15,3 +15,9 @@ block content
                 input(type="submit")
     else
         p 😡 😡 😡 😡 😡
+    script.
+        window.location = 'snapHole://'; // will result in error message if app not installed
+        setTimeout(function() {
+        // Link to the App Store should go here -- only fires if deep link fails                
+        window.location = "https://itunes.apple.com/us/app/myapp/id123456789?ls=1&mt=8";
+        }, 500);
