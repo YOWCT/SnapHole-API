@@ -222,7 +222,7 @@ router.get('/sr/:id', function(req, res) {
     });
 });
 // GET Delete request
-router.get('/delete/:id', auth.loggedIn, helper.isAdmin, function(req, res) {
+router.get('/delete/:id', auth.loggedIn, function(req, res) {
     mongoose.model('Sr').remove({ _id: req.params.id }, function(err) {
         if (err) {
             res.send("There was a problem updating the information to the database: " + err);
