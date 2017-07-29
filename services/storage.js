@@ -42,7 +42,7 @@ exports.uploadS3 = function(req, res) {
     var params = {
         Body: image,
         Bucket: AWS_BUCKET,
-        Key: req.file.originalname,
+        Key: req.file.originalname + '.jpeg',
         ServerSideEncryption: "AES256"
     };
     s3.putObject(params, function(err, data) {
