@@ -25,7 +25,7 @@ pothole    | server running on port: 8089
 
 Using your favorite web browser visit [`http://localhost:8089`](http://localhost:8089).
 
-![SnapHole-Preview](images/PotHole-Preview.png)
+![SnapHole-Preview](public/images/PotHole-Preview.png)
 
 ## Full Install
 
