@@ -34,8 +34,9 @@ router.get('/login', function(req, res, next) {
 router.post('/login',
     passport.authenticate('local', {
         successRedirect: '/',
+        successFlash: 'Logged in successfully',
         failureRedirect: '/users/login',
-
+        failureFlash: true
     }),
     function(req, res) {
         res.redirect('/');
@@ -70,13 +71,11 @@ router.post('/register', function(req, res, next) {
                     function(err, user) {
                         if (err) {
                             console.log(`################# ${err} #################`)
-                            req.session.message = "Problem creating your account."
+
                             done(null, token, err)
                         } else {
-                            req.session.message = "Check your email, we sent you a message."
                             done(null, token, user)
                         }
-
                     });
             },
             // Send email
@@ -214,7 +213,6 @@ router.post('/forgot', function(req, res, next) {
 
                     user.token = token;
                     user.tokenExpire = Date.now() + 3600000; // 1 hour
-                    req.session.message = "We sent you an email."
                     user.save(function(err) {
                         done(err, token, user);
                     });

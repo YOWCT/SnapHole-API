@@ -35,3 +35,12 @@ a {
 .object-fit_scale-down {
     object-fit: scale-down
 }
+
+
+/* ALERTS */
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1
+}

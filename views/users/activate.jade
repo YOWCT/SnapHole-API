@@ -8,10 +8,10 @@ block content
             form(action="#{user.token}" method="post")
                 .form-group
                     label(for="pass1") Password
-                    input#pass1.form-control(type="text" placeholder='Password' name="password")
+                    input#pass1.form-control(type="password" placeholder='Password' name="password")
                 .form-group
                     label(for="pass1") Confirm password
-                    input#pass1.form-control(type="text" placeholder='Confirm password' name="pass2")
+                    input#pass1.form-control(type="password" placeholder='Confirm password' name="pass2")
                 input(type="submit")
     else
         p 😡 😡 😡 😡 😡

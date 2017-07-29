@@ -29,10 +29,9 @@ html
       .row
         include sidenav
         main.col-sm-9.offset-sm-3.col-md-10.offset-md-2.pt-3
-          if message
-            .alert.alert-info
-              strong Heads up!
-              span  #{message}
+          while message = flash.shift()
+            .alert(class='alert-' + message.type)
+              span= message.message
           block content
     html.
       <script type="text/javascript">
@@ -44,3 +43,7 @@ html
     script(src="https://code.jquery.com/jquery-3.1.1.slim.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js")
+    script.
+      $(".alert").delay(4000).slideUp(200, function() {
+          $(this).alert('close');
+      });

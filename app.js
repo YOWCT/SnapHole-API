@@ -25,7 +25,7 @@ app.use(cookieSession({
     keys: ['key1', 'key2'],
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
-
+app.use(require('flash')());
 // Passport configuration
 
 const User = require('./models/user');
@@ -33,7 +33,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
