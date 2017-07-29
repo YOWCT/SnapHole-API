@@ -226,7 +226,7 @@ var fs_storage = multer.diskStorage({
         cb(null, './uploads')
     },
     filename: function(req, file, cb) {
-        cb(null, file.originalname + '.jpg')
+        cb(null, file.originalname + '.jpeg')
     }
 })
 
