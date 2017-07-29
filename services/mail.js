@@ -1,7 +1,7 @@
-let { MAILGUN_KEY } = process.env;
+let { MAILGUN_KEY, MAILGUN_DOMAIN } = process.env;
 MAILGUN_KEY = MAILGUN_KEY || 'unknown-key'
 
-const domain = 'mg.esdev.xyz';
+const domain = MAILGUN_DOMAIN;
 const mailgun = require('mailgun-js')({ apiKey: MAILGUN_KEY, domain: domain });
 
 exports.sendEmail = (data) => {
