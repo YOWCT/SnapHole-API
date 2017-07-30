@@ -24,7 +24,7 @@ block content
             var user_agent_header = navigator.userAgent;
 
             if(user_agent_header.indexOf('iPhone')!=-1 || user_agent_header.indexOf('iPod')!=-1 || user_agent_header.indexOf('iPad')!=-1){
-                setTimeout(function() { window.location="snapHole://" +token;}, 25);
+                setTimeout(function() { window.location="snapHole://?token=" +token;}, 25);
             }
 
         });
