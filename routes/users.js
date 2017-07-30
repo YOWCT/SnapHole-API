@@ -143,8 +143,10 @@ router.post('/register', function(req, res, next) {
 router.get('/authenticate/:token', function(req, res) {
     mongoose.model('User').findOne({ token: req.params.token, tokenExpire: { $gt: Date.now() } }, function(err, user) {
         if (user) {
+            console.log(`################# ${user.username} #################`)
             res.send("success")
         } else {
+            console.log(`################# no user found in authenticate route #################`)
             res.send("failure")
         }
     });
