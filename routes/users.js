@@ -48,8 +48,22 @@ router.get('/logout', function(req, res) {
 router.get('/register', function(req, res, next) {
     res.render('users/register', { title: `${APP_NAME} - Registration` });
 });
+
+
+
 router.post('/register', function(req, res, next) {
     var newUser = new Object(req.body);
+
+    // If user is client(from mobile app) then let token last for a longer amount of time.
+    var isClient;
+    var expire;
+    if (req.body.client) {
+        expire = Date.now() + 60 * 60 * 10000000000000;
+        isClient = true
+    } else {
+        expire = Date.now() + 60 * 60 * 1000;
+        isClient = false
+    }
     console.log(newUser)
     async.waterfall([
             function(done) {
@@ -60,7 +74,7 @@ router.post('/register', function(req, res, next) {
             },
             function(token, done) {
                 newUser.token = token;
-                newUser.tokenExpire = Date.now() + 60 * 60 * 1000;
+                newUser.tokenExpire = expire;
                 User.register(new User({
                         first_name: newUser.first_name,
                         last_name: newUser.last_name,
@@ -102,23 +116,39 @@ router.post('/register', function(req, res, next) {
                     done(null, token, user);
                 });
             },
-            // Respond to client app
             function(token, user, done) {
-
-
-                done(null, "done");
+                done(null, token, "done");
             }
         ],
         function(err, result) {
+
+
             if (result == 'done') {
+                // respond to client app
+                // if (isClient) {
+                //     res.send()
+                // } else { 
+                // respond to user in browser
                 req.flash('success', 'We sent you an email with further instructions.')
                 res.redirect('/users/login')
+                    // }
             } else {
                 req.flash('error', 'There was an error.')
                 res.send('error')
             }
 
         });
+});
+
+router.get('/authenticate/:token', function(req, res) {
+    mongoose.model('User').findOne({ token: req.params.token, tokenExpire: { $gt: Date.now() } }, function(err, user) {
+        if (user) {
+            res.send("success")
+        } else {
+            res.send("failure")
+        }
+    });
+
 });
 router.get('/activate/:token', function(req, res) {
 
