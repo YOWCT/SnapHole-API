@@ -144,7 +144,7 @@ router.get('/authenticate/:token', function(req, res) {
     mongoose.model('User').findOne({ token: req.params.token, tokenExpire: { $gt: Date.now() } }, function(err, user) {
         if (user) {
             console.log(`################# ${user.username} #################`)
-            res.send("success")
+            res.send({ username: user.username, first_name: user.first_name, last_name: user.last_name })
         } else {
             console.log(`################# no user found in authenticate route #################`)
             res.send("failure")
