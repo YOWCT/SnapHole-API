@@ -58,7 +58,7 @@ router.post('/register', function(req, res, next) {
     var isClient;
     var expire;
     if (req.body.client) {
-        expire = Date.now() + 60 * 60 * 10000000000000;
+        expire = Date.now() + 60 * 60 * 1000 * 24 * 360;
         isClient = true
     } else {
         expire = Date.now() + 60 * 60 * 1000;
