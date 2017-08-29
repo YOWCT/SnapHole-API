@@ -137,3 +137,4 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 ** IOS **
 
 - https://youtu.be/zAWO9rldyUE
+- http://jayeshkawli.ghost.io/ios-custom-url-schemes/
