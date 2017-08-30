@@ -1,5 +1,8 @@
 # SnapHole API Server
 
+[![Build Status](https://travis-ci.org/YOWCT/SnapHole-API.svg?branch=master)](https://travis-ci.org/YOWCT/SnapHole-API)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/YOWCT/SnapHole-API/master/LICENSE)
+
 An app that receives a photo from a client app and sends a request to the City of Ottawa for pot hole repair.
 
 ## Quickstart
