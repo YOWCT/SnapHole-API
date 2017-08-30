@@ -2,20 +2,23 @@
 // Lib requires
 
 let { AWS_BUCKET, APP_NAME, IMGUR_CLIENT_ID } = process.env;
-const express = require('express'),
-    router = express.Router(),
-    request = require('request'),
-    path = require('path'),
-    fs = require('fs-extra'),
-    mongoose = require('mongoose'),
-    helper = require('../services'),
-    storage = require('../services/storage'),
-    auth = require('../services/auth'),
-    services = require('../services/services'),
-    multer = require('multer'),
-    aws = require('aws-sdk'),
-    Sr = require('../models/sr');
+const { geolocation } = require('../validation');
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const path = require('path');
+const fs = require('fs-extra');
+const mongoose = require('mongoose');
+const helper = require('../services');
+const storage = require('../services/storage');
+const auth = require('../services/auth');
+const services = require('../services/services');
+const multer = require('multer');
+const aws = require('aws-sdk');
+const Sr = require('../models/sr');
 aws.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY });
+
+
 var s3 = new aws.S3();
 
 /* GET home page. */
@@ -24,10 +27,10 @@ router.get('/', auth.loggedIn, function(req, res, next) {
 });
 
 router.get('/requests_by_type', auth.loggedIn, function(req, res, next) {
-    // get our data    
+    // get our data
     request('https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json', function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred 
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         //console.log('body:', body); // Print the HTML for the Google homepage.
         var clean_body = JSON.parse(body);
         var original = clean_body.map(function(a) { return a.service_name; });
@@ -38,12 +41,12 @@ router.get('/requests_by_type', auth.loggedIn, function(req, res, next) {
 
 
 router.get('/requests_by_date/start_date/:start_date/end_date/:end_date', auth.loggedIn, function(req, res, next) {
-    // get our data    
+    // get our data
     var start_date = "2017-01-01T00:00:00Z";
     var end_date = "2017-03-20T00:00:00Z";
     request('https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json?start_date=' + start_date + '&end_date=' + end_date, function(error, response, body) {
-        console.log('error:', error); // Print the error if one occurred 
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
         res.send(body);
     });
@@ -140,8 +143,8 @@ router.get('/map/:format?', function(req, res) {
 });
 
 // Create an authentication route
-// POST Request 
-// Params: email 
+// POST Request
+// Params: email
 // Param: Password
 // and then they are logged in.
 // if they lose their session, they click send me a magic login link.
@@ -149,7 +152,7 @@ router.get('/map/:format?', function(req, res) {
 // Store that email with the request
 // return as JSON: success
 
-// POST Receive service request information from client app, initiate storage. 
+// POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function(req, res) {
     let client_information = "N/A",
         timestamp = Date.now(),
@@ -159,6 +162,16 @@ router.post('/sr_information', function(req, res) {
         imgur_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
         longitude = parseFloat(req.body.long),
         latitude = parseFloat(req.body.lat);
+
+    switch (geolocation(latitude, longitude)) {
+    case 'ottawa':
+        console.log('Pothole is located in Ottawa :)')
+    case 'gatineau':
+        console.log('Pothole is located on the darkside!')
+    default:
+        console.log('cannot find any approved cities :(')
+    }
+
     // Create record for pothole
     mongoose.model('Sr').create({
         client_information: client_information,

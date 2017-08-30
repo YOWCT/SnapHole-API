@@ -19,6 +19,8 @@
         "dev": "nodemon  --exec npm start --config nodemon.json"
     },
     "dependencies": {
+        "@turf/boolean-contains": "^4.6.1",
+        "@turf/helpers": "^4.6.0",
         "async": "^2.5.0",
         "aws-sdk": "^2.89.0",
         "bluebird": "^3.5.0",
@@ -37,6 +39,7 @@
         "imgur": "^0.2.1",
         "jade": "~1.11.0",
         "jsdoc": "^3.5.1",
+        "load-json-file": "^3.0.0",
         "mailgun-js": "^0.11.2",
         "mongoose": "^4.9.1",
         "morgan": "~1.7.0",
@@ -47,7 +50,8 @@
         "passport-local": "^1.0.0",
         "passport-local-mongoose": "^4.0.0",
         "request": "^2.81.0",
-        "serve-favicon": "~2.3.2"
+        "serve-favicon": "~2.3.2",
+        "tape": "^4.8.0"
     },
     "devDependencies": {
         "nodemon": "^1.11.0"
