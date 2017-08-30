@@ -1,5 +1,5 @@
 {
-    "name": "pothole_webserver",
+    "name": "snaphole-api",
     "version": "0.0.0",
     "license": "MIT",
     "contributors": [
@@ -10,10 +10,10 @@
     "private": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/YOWCT/pothole_webserver.git"
+        "url": "https://github.com/YOWCT/YOWCT/SnapHole-API.git"
     },
     "scripts": {
-        "test": "echo\"No tests specified\" && exit 1",
+        "test": "node validation/*.test.js",
         "prestart": "jsdoc services/index.js -d public/docs",
         "start": "node ./bin/www",
         "dev": "nodemon  --exec npm start --config nodemon.json"
