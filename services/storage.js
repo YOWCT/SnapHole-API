@@ -31,9 +31,6 @@ exports.saveToDatabase = function(req, res) {
     });
 }
 
-
-
-
 // Upload to s3
 exports.uploadS3 = function(req, res) {
     console.log(req.file.path)
