@@ -2,7 +2,7 @@ extends ../partials/layout.jade
 block content
     h1.page-header= title
     .col-md-4
-        form(action="login" method="post")
+        form(action="/users/login" method="post")
             .form-group
                 label(for="username") Email
                 input#username.form-control(type="email" name="username" placeholder="Email")

@@ -13,8 +13,7 @@
         "url": "https://github.com/YOWCT/YOWCT/SnapHole-API.git"
     },
     "scripts": {
-        "test": "node validation/*.test.js",
-        "prestart": "jsdoc services/index.js -d public/docs",
+        "test": "standard",
         "start": "node ./bin/www",
         "dev": "nodemon  --exec npm start --config nodemon.json"
     },
@@ -54,6 +53,7 @@
         "tape": "^4.8.0"
     },
     "devDependencies": {
-        "nodemon": "^1.11.0"
+        "nodemon": "^1.11.0",
+        "standard": "^10.0.3"
     }
 }

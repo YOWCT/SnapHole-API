@@ -5,7 +5,9 @@ const contains = require('@turf/boolean-contains')
 
 // GeoJSON Cities
 const ottawa = load.sync(path.join(__dirname, '..', 'cities', 'ottawa.geojson'))
-const gatineau = load.sync(path.join(__dirname, '..', 'cities', 'gatineau.geojson'))
+const gatineau = load.sync(
+  path.join(__dirname, '..', 'cities', 'gatineau.geojson')
+)
 
 /**
  * GeoLocation validation
@@ -27,4 +29,3 @@ module.exports = function (latitude, longitude) {
   if (contains(gatineau, pt)) return 'gatineau'
   return undefined
 }
-

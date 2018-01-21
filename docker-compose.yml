@@ -6,6 +6,7 @@ services:
     env_file: .env
     environment:
       - DB_HOST=mongodb
+      - DOMAIN=http://localhost:8089
     ports:
       - 49100:8089
     depends_on:
