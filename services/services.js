@@ -2,7 +2,7 @@ const request = require('request')
 const mongoose = require('mongoose')
 var https = require('https')
 var querystring = require('querystring')
-const Sr = require('../models/sr')
+// const Sr = require('../models/sr')
 /**
  * Pass id of service request
  * Return Values and Count for each
@@ -37,14 +37,14 @@ function sendTicketToCity (id, lat, long) {
     })
     res.on('end', function () {
       var service_request = JSON.parse(result)
-      var service_request_id = service_request[0].service_request_id
-      console.log(service_request_id)
-      var service_notice = result[0].service_notice
+      var serviceRequestId = service_request[0].serviceRequestId
+      console.log(serviceRequestId)
+      var serviceNotice = result[0].serviceNotice
       mongoose.model('Sr').findOneAndUpdate(
-        { fk_phid: id },
+        { fkPhid: id },
         {
-          service_request_id: service_request_id,
-          service_notice: service_notice
+          serviceRequestId: serviceRequestId,
+          serviceNotice: serviceNotice
         },
         function (err, pothole) {
           if (err) {

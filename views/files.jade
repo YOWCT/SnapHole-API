@@ -14,12 +14,12 @@ block content
             for result in results
                 tr
                     td 
-                        img.img(src="#{result.img_url}" class="object-fit_scale-down")
-                    td= result.fk_phid
+                        img.img(src="#{result.imgUrl}" class="object-fit_scale-down")
+                    td= result.fkPhid
                     td= result.size
                     td= result.longitude 
                     td= result.latitude
-                    td= result.service_request_id
+                    td= result.serviceRequestId
                     td= result.timestamp
                     td
                         a(href='/delete/#{result._id}') delete

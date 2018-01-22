@@ -34,8 +34,8 @@ exports.saveToDatabase = function (req, res) {
   mongoose
     .model('Sr')
     .findOneAndUpdate(
-      { img_name: req.file.filename },
-      { img_base64: image },
+      { imgName: req.file.filename },
+      { imgBase64: image },
       function (err, sr) {
         if (err) {
           console.log(err)

@@ -171,10 +171,10 @@ router.get('/map/:format?', function (req, res) {
 router.post('/sr_information', function (req, res) {
   let client_information = 'N/A',
     timestamp = Date.now(),
-    fk_phid = req.body.uuid,
-    img_name = `${req.body.uuid}.jpeg`,
-    img_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
-    imgur_url = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+    fkPhid = req.body.uuid,
+    imgName = `${req.body.uuid}.jpeg`,
+    imgUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+    imgurUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
     longitude = parseFloat(req.body.long),
     latitude = parseFloat(req.body.lat)
 
@@ -192,10 +192,10 @@ router.post('/sr_information', function (req, res) {
     {
       client_information: client_information,
       timestamp: Date.now(),
-      fk_phid: fk_phid,
-      img_name: img_name,
-      img_url: img_url,
-      imgur_url: imgur_url,
+      fkPhid: fkPhid,
+      imgName: imgName,
+      imgUrl: imgUrl,
+      imgurUrl: imgurUrl,
       location: { type: 'Point', coordinates: [longitude, latitude] },
       longitude: longitude,
       latitude: latitude
@@ -205,7 +205,7 @@ router.post('/sr_information', function (req, res) {
         res.send('There was a problem adding the information to the database.')
         console.log(err)
       } else {
-        // services.sendTicketToCity(fk_phid, latitude, longitude);
+        // services.sendTicketToCity(fkPhid, latitude, longitude);
         res.send(sr)
       }
     }
@@ -216,7 +216,7 @@ router.post('/size', function (req, res) {
   var uuid = req.body.uuid
   var size = req.body.size
   mongoose.model('Sr').findOneAndUpdate(
-    { fk_phid: uuid },
+    { fkPhid: uuid },
     {
       size: size
     },
@@ -225,7 +225,7 @@ router.post('/size', function (req, res) {
         res.send('There was a problem adding the information to the database.')
         console.log(err)
       } else {
-        // services.sendTicketToCity(fk_phid, latitude, longitude);
+        // services.sendTicketToCity(fkPhid, latitude, longitude);
         res.send(sr)
       }
     }
@@ -276,8 +276,8 @@ router.post('/sr', upload.single('userPhoto'), function (req, res) {
 // GET One request
 router.get('/sr/:id', function (req, res) {
   var id = req.params.id
-  mongoose.model('Sr').findOne({ fk_phid: id }, function (err, sr) {
-    res.send(sr.service_request_id)
+  mongoose.model('Sr').findOne({ fkPhid: id }, function (err, sr) {
+    res.send(sr.serviceRequestId)
   })
 })
 // GET Delete request

@@ -4,11 +4,11 @@ var Schema = mongoose.Schema
 var srSchema = new Schema({
   client_information: { type: String, Default: '' },
   timestamp: { type: Date, Default: Date.now() },
-  fk_phid: String,
-  img_name: String,
-  img_url: String,
-  imgur_url: String,
-  img_base64: String,
+  fkPhid: String,
+  imgName: String,
+  imgUrl: String,
+  imgurUrl: String,
+  imgBase64: String,
   size: String,
   location: {
     type: { type: String },
@@ -16,8 +16,8 @@ var srSchema = new Schema({
   },
   latitude: Number,
   longitude: Number,
-  service_request_id: String,
-  service_notice: String
+  serviceRequestId: String,
+  serviceNotice: String
 })
 srSchema.index({ location: '2dsphere' })
 mongoose.model('Sr', srSchema)
