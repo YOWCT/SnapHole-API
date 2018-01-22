@@ -13,9 +13,12 @@
         "url": "https://github.com/YOWCT/YOWCT/SnapHole-API.git"
     },
     "scripts": {
-        "test": "standard",
-        "start": "node ./bin/www",
-        "dev": "nodemon  --exec npm start --config nodemon.json"
+        "open:app": "nodemon --exec npm run startapp --config nodemon.json",
+        "startapp": "nodemon ./bin/www",
+        "start": "npm-run-all --parallel open:app lint:watch",
+        "lint": "node_modules/.bin/standard",
+        "lint:watch": "npm run lint",
+        "dev": ""
     },
     "dependencies": {
         "@turf/boolean-contains": "^4.6.1",
@@ -55,6 +58,7 @@
     },
     "devDependencies": {
         "nodemon": "^1.11.0",
+        "npm-run-all": "^4.1.2",
         "standard": "^10.0.3"
     }
 }

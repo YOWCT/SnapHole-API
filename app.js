@@ -1,11 +1,12 @@
-let { AWS_BUCKET, APP_NAME } = process.env
+let { APP_NAME } = process.env
 
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
+// const cookieParser = require('cookie-parser')
+// const bodyParser = require('body-parser')
 const fs = require('fs')
+// eslint-disable-next-line
 const dotenv = require('dotenv').config()
 
 const mongoose = require('mongoose')
@@ -64,7 +65,9 @@ app.use(function (req, res, next) {
 })
 //  Including all model files.
 fs.readdirSync(path.join(__dirname, 'models')).forEach(function (filename) {
-  if (~filename.indexOf('.js')) { require(path.join(__dirname, 'models', filename)) }
+  if (~filename.indexOf('.js')) {
+    require(path.join(__dirname, 'models', filename))
+  }
 })
 // error handler
 app.use(function (err, req, res, next) {
@@ -74,9 +77,5 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500)
   res.render('error')
-})
-// Include all model files
-fs.readdirSync(__dirname + '/models').forEach(function (filename) {
-  if (~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
 })
 module.exports = app

@@ -1,27 +1,21 @@
 'use strict'
 // Lib requires
 
-let { AWS_BUCKET, APP_NAME, IMGUR_CLIENT_ID } = process.env
+let { AWS_BUCKET, APP_NAME } = process.env
 const { geolocation } = require('../validation')
 const express = require('express')
 const router = express.Router()
 const request = require('request')
-const path = require('path')
-const fs = require('fs-extra')
 const mongoose = require('mongoose')
 const helper = require('../services')
 const storage = require('../services/storage')
 const auth = require('../services/auth')
-const services = require('../services/services')
 const multer = require('multer')
 const aws = require('aws-sdk')
-const Sr = require('../models/sr')
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
-
-var s3 = new aws.S3()
 
 /* GET home page. */
 router.get('/', auth.loggedIn, function (req, res, next) {
@@ -36,8 +30,8 @@ router.get('/requests_by_type', auth.loggedIn, function (req, res, next) {
       console.log('error:', error) // Print the error if one occurred
       console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
       // console.log('body:', body); // Print the HTML for the Google homepage.
-      var clean_body = JSON.parse(body)
-      var original = clean_body.map(function (a) {
+      var cleanBody = JSON.parse(body)
+      var original = cleanBody.map(function (a) {
         return a.service_name
       })
       var compressed = helper.compressArray(original)
@@ -68,42 +62,14 @@ router.get(
   }
 )
 
-// SR ROUTES
-// var storage = multer.diskStorage({
-//     destination: function(req, file, callback) {
-//         var s3request = {
-//             Body: file.buffer,
-//             Bucket: AWS_BUCKET,
-//             Key: file.originalname + ".jpeg"
-//         };
-//         s3.putObject(s3request, function(err, data) {
-//             if (err) {
-//                 console.log(err)
-//             } else {
-
-//                 callback(null, './uploads');
-//             }
-//         });
-
-//     },
-//     filename: function(req, file, callback) {
-//         //console.log(req.files);
-//         //var Key = helper.guid()
-
-//         callback(null, file.originalname + ".jpeg");
-//     }
-// });
-
-// var upload_fs = multer({ storage: storage }).single('userPhoto');
-
 // GET All requests
-router.get('/service_requests/:format?', auth.loggedIn, function (req, res) {
+router.get('/serviceRequests/:format?', auth.loggedIn, function (req, res) {
   mongoose.model('Sr').find({}, function (err, results) {
+    var vm
     if (err) {
       console.log(err)
     } else {
-      console.log(results)
-      var vm = {
+      vm = {
         title: `${APP_NAME} + List"`,
         menu: 'Requests',
         results: results
@@ -111,7 +77,7 @@ router.get('/service_requests/:format?', auth.loggedIn, function (req, res) {
       if (req.params.format) {
         res.json(results)
       } else {
-        var vm = {
+        vm = {
           title: 'Potholes List',
           menu: 'Requests',
           results: results
@@ -169,14 +135,13 @@ router.get('/map/:format?', function (req, res) {
 
 // POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function (req, res) {
-  let clientInformation = 'N/A',
-    timestamp = Date.now(),
-    fkPhid = req.body.uuid,
-    imgName = `${req.body.uuid}.jpeg`,
-    imgUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
-    imgurUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
-    longitude = parseFloat(req.body.long),
-    latitude = parseFloat(req.body.lat)
+  let clientInformation = 'N/A'
+  let fkPhid = req.body.uuid
+  let imgName = `${req.body.uuid}.jpeg`
+  let imgUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`
+  let imgurUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`
+  let longitude = parseFloat(req.body.long)
+  let latitude = parseFloat(req.body.lat)
 
   switch (geolocation(latitude, longitude)) {
     case 'ottawa':
@@ -280,6 +245,9 @@ router.post('/sr', upload.single('userPhoto'), function (req, res) {
 router.get('/sr/:id', function (req, res) {
   var id = req.params.id
   mongoose.model('Sr').findOne({ fkPhid: id }, function (err, sr) {
+    if (err) {
+      console.log(err)
+    }
     res.send(sr.serviceRequestId)
   })
 })
@@ -291,7 +259,7 @@ router.get('/delete/:id', auth.loggedIn, function (req, res) {
         'There was a problem updating the information to the database: ' + err
       )
     } else {
-      res.redirect('/service_requests')
+      res.redirect('/serviceRequests')
     }
   })
 })

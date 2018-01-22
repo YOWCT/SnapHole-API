@@ -1,22 +1,21 @@
-let { AWS_BUCKET, APP_NAME, FROM_EMAIL } = process.env
+let { APP_NAME, FROM_EMAIL } = process.env
 
-var express = require('express'),
-  router = express.Router(),
-  mongoose = require('mongoose'),
-  async = require('async'),
-  passport = require('passport'),
-  User = require('../models/user'),
-  crypto = require('crypto'),
-  path = require('path'),
-  EmailTemplate = require('email-templates').EmailTemplate,
-  mail = require('../services/mail'),
-  helper = require('../services'),
-  auth = require('../services/auth')
+const express = require('express')
+const router = express.Router()
+const mongoose = require('mongoose')
+const async = require('async')
+const passport = require('passport')
+const User = require('../models/user')
+const crypto = require('crypto')
+const path = require('path')
+const EmailTemplate = require('email-templates').EmailTemplate
+const mail = require('../services/mail')
+const helper = require('../services')
+const auth = require('../services/auth')
 
 /* GET users listing. */
 router.get('/', auth.loggedIn, function (req, res, next) {
-  query = {}
-  User.find(query, function (err, users) {
+  User.find({}, function (err, users) {
     if (err) {
       res.status(500).send(err)
     } else {
@@ -67,17 +66,9 @@ router.get('/register', function (req, res, next) {
 })
 
 router.post('/register', function (req, res, next) {
-  var newUser = new Object(req.body)
+  var newUser = req.body
   // If user is client(from mobile app) then let token last for a longer amount of time.
-  var isClient
-  var expire
-  if (req.body.client) {
-    expire = Date.now() + 60 * 60 * 1000 * 24 * 30
-    isClient = true
-  } else {
-    expire = Date.now() + 60 * 60 * 1000
-    isClient = false
-  }
+  const expire = Date.now() + 60 * 60 * 1000 * 24 * 30
   console.log(newUser)
   async.waterfall(
     [
@@ -217,7 +208,13 @@ router.post('/activate/:token', function (req, res) {
               user.tokenExpire = undefined
               req.session.message = null
               user.save(function (err) {
+                if (err) {
+                  console.log(err)
+                }
                 req.logIn(user, function (err) {
+                  if (err) {
+                    console.log(err)
+                  }
                   done(err, user)
                 })
               })
@@ -226,6 +223,9 @@ router.post('/activate/:token', function (req, res) {
       }
     ],
     function (err, user) {
+      if (err) {
+        console.log(err)
+      }
       res.redirect('/')
     }
   )
@@ -238,12 +238,18 @@ router.post('/forgot', function (req, res, next) {
     [
       function (done) {
         crypto.randomBytes(20, function (err, buf) {
+          if (err) {
+            console.log(err)
+          }
           var token = buf.toString('hex')
           done(err, token)
         })
       },
       function (token, done) {
         User.findOne({ username: req.body.username }, function (err, user) {
+          if (err) {
+            console.log(err)
+          }
           if (!user) {
             return res.redirect('/users/forgot')
           }

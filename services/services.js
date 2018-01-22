@@ -1,4 +1,3 @@
-const request = require('request')
 const mongoose = require('mongoose')
 var https = require('https')
 var querystring = require('querystring')
@@ -30,14 +29,14 @@ function sendTicketToCity (id, lat, long) {
 
   // Request object
   var req = https.request(options, function (res) {
-    console.log(result)
-    var result = ''
+    // console.log(result)
+    let result
     res.on('data', function (chunk) {
       result += chunk
     })
     res.on('end', function () {
-      var service_request = JSON.parse(result)
-      var serviceRequestId = service_request[0].serviceRequestId
+      var serviceRequest = JSON.parse(result)
+      var serviceRequestId = serviceRequest[0].serviceRequestId
       console.log(serviceRequestId)
       var serviceNotice = result[0].serviceNotice
       mongoose.model('Sr').findOneAndUpdate(

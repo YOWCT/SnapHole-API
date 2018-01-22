@@ -1,16 +1,9 @@
-let {
-  IMGUR_EMAIL,
-  IMGUR_CLIENT_ID,
-  IMGUR_CLIENT_SECRET,
-  IMGUR_PASSWORD,
-  AWS_BUCKET
-} = process.env
+let { IMGUR_CLIENT_ID, AWS_BUCKET } = process.env
 const fs = require('fs')
 const request = require('request')
 const path = require('path')
 const aws = require('aws-sdk')
 const mongoose = require('mongoose')
-// const Sr = require('../models/sr')
 
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -24,7 +17,7 @@ function base64Encode (file) {
   // read binary data
   var image = fs.readFileSync(file)
   // convert binary data to base64 encoded string
-  return new Buffer(image).toString('base64')
+  return Buffer.from(image).toString('base64')
 }
 
 // Upload to MongoDB must be less than 16MB
