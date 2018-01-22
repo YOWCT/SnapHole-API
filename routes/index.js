@@ -19,13 +19,6 @@ aws.config.update({
 
 /* GET home page. */
 
-router.all('*', function (req, res, next) {
-  var vm = {
-    user: req.user
-  }
-  next()
-})
-
 router.get('/', auth.loggedIn, function (req, res, next) {
   res.render('index', { title: APP_NAME, menu: 'Home', user: req.user })
 })
