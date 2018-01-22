@@ -47,17 +47,17 @@ router.get('/requests_by_type', auth.loggedIn, function (req, res, next) {
 })
 
 router.get(
-  '/requests_by_date/start_date/:start_date/end_date/:end_date',
+  '/requests_by_date/startDate/:startDate/endDate/:endDate',
   auth.loggedIn,
   function (req, res, next) {
     // get our data
-    var start_date = '2017-01-01T00:00:00Z'
-    var end_date = '2017-03-20T00:00:00Z'
+    var startDate = '2017-01-01T00:00:00Z'
+    var endDate = '2017-03-20T00:00:00Z'
     request(
-      'https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json?start_date=' +
-        start_date +
-        '&end_date=' +
-        end_date,
+      'https://city-of-ottawa-dev.apigee.net/open311/v2/requests.json?startDate=' +
+        startDate +
+        '&endDate=' +
+        endDate,
       function (error, response, body) {
         console.log('error:', error) // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
@@ -169,7 +169,7 @@ router.get('/map/:format?', function (req, res) {
 
 // POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function (req, res) {
-  let client_information = 'N/A',
+  let clientInformation = 'N/A',
     timestamp = Date.now(),
     fkPhid = req.body.uuid,
     imgName = `${req.body.uuid}.jpeg`,
@@ -181,16 +181,19 @@ router.post('/sr_information', function (req, res) {
   switch (geolocation(latitude, longitude)) {
     case 'ottawa':
       console.log('Pothole is located in Ottawa :)')
+      break
     case 'gatineau':
       console.log('Pothole is located on the darkside!')
+      break
     default:
       console.log('cannot find any approved cities :(')
+      break
   }
 
   // Create record for pothole
   mongoose.model('Sr').create(
     {
-      client_information: client_information,
+      clientInformation: clientInformation,
       timestamp: Date.now(),
       fkPhid: fkPhid,
       imgName: imgName,
@@ -247,7 +250,7 @@ router.post('/size', function (req, res) {
 
 // });
 
-// var fs_storage = multer.diskStorage({
+// var fsStorage = multer.diskStorage({
 //     destination: function(req, file, cb) {
 //         cb(null, './uploads')
 //     },
@@ -256,8 +259,8 @@ router.post('/size', function (req, res) {
 //     }
 // })
 
-// var upload = multer({ storage: fs_storage })
-var fs_storage = multer.diskStorage({
+// var upload = multer({ storage: fsStorage })
+var fsStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
   },
@@ -266,7 +269,7 @@ var fs_storage = multer.diskStorage({
   }
 })
 
-var upload = multer({ storage: fs_storage })
+var upload = multer({ storage: fsStorage })
 
 router.post('/sr', upload.single('userPhoto'), function (req, res) {
   storage.uploadS3(req, res)

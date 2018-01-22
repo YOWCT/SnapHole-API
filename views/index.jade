@@ -9,10 +9,10 @@ block content
         li Number of potholes reported
         li Number of app downloads
         
-    form(action="/requests_by_date/start_date/:start_date/end_date/:end_date" method="get")
+    form(action="/requests_by_date/startDate/:startDate/endDate/:endDate" method="get")
         label() Filter by date:    
-        input(type="date" name="start_date")
-        input(type="date" name="end_date")
+        input(type="date" name="startDate")
+        input(type="date" name="endDate")
     
     .row#d3Chart
 

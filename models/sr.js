@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 // TODO ADD DEFAULTS
 var srSchema = new Schema({
-  client_information: { type: String, Default: '' },
+  clientInformation: { type: String, Default: '' },
   timestamp: { type: Date, Default: Date.now() },
   fkPhid: String,
   imgName: String,
