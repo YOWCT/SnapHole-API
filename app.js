@@ -17,11 +17,12 @@ const User = require('./models/user')
 // Routes
 const index = require('./routes/index')
 const users = require('./routes/users')
-//const cookieSession = require('cookie-session')
+// const cookieSession = require('cookie-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
 var app = express()
+app.use(favicon('https://s3.amazonaws.com/tdevisscher-images/collaborative-projects/td.png'))
 app.use(require('cookie-parser')())
 app.use(require('body-parser').urlencoded({ extended: true }))
 app.use(
@@ -64,8 +65,8 @@ app.use(function (req, res, next) {
   next(err)
 })
 //  Including all model files.
-fs.readdirSync(__dirname + '/models').forEach(function (filename) {
-  if (~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+fs.readdirSync(path.join(__dirname, 'models')).forEach(function (filename) {
+  if (~filename.indexOf('.js')) { require(path.join(__dirname, 'models', filename)) }
 })
 // error handler
 app.use(function (err, req, res, next) {

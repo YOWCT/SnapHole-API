@@ -15,37 +15,7 @@ block content
         input(type="date" name="end_date")
     
     .row#d3Chart
-        style.
-            .bar {
-                fill: #406aa3;
-            }
 
-            .bar:hover {
-                fill: red;
-            }
-            .axis--x path {
-                display: none;
-            }
-            .toolTip {
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                position: absolute;
-                display: none;
-                width: auto;
-                height: auto;
-                background: none repeat scroll 0 0 white;
-                border: 0 none;
-                border-radius: 8px 8px 8px 8px;
-                box-shadow: -3px 3px 15px #888888;
-                color: black;
-                font: 12px sans-serif;
-                padding: 5px;
-                text-align: center;
-            }
-
-            .legend {
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                font-size: 60%;
-            }
         script(src="https://d3js.org/d3.v3.min.js" charset="utf-8")
         script.
             var margin = {top: 20, right: 0, bottom: 300, left:50},
