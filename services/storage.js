@@ -5,12 +5,13 @@ let {
   IMGUR_PASSWORD,
   AWS_BUCKET
 } = process.env
-var fs = require('fs'),
-  request = require('request'),
-  path = require('path'),
-  aws = require('aws-sdk'),
-  mongoose = require('mongoose'),
-  Sr = require('../models/sr')
+const fs = require('fs')
+const request = require('request')
+const path = require('path')
+const aws = require('aws-sdk')
+const mongoose = require('mongoose')
+// const Sr = require('../models/sr')
+
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
