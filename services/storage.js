@@ -19,7 +19,7 @@ aws.config.update({
 var s3 = new aws.S3()
 
 // ENCODE base64
-function base64_encode (file) {
+function base64Encode (file) {
   // read binary data
   var image = fs.readFileSync(file)
   // convert binary data to base64 encoded string
@@ -29,7 +29,7 @@ function base64_encode (file) {
 // Upload to MongoDB must be less than 16MB
 exports.saveToDatabase = function (req, res) {
   console.log(req.file)
-  var image = base64_encode(path.join(req.file.path))
+  var image = base64Encode(path.join(req.file.path))
   mongoose
     .model('Sr')
     .findOneAndUpdate(
@@ -57,14 +57,17 @@ exports.uploadS3 = function (req, res) {
     ServerSideEncryption: 'AES256'
   }
   s3.putObject(params, function (err, data) {
-    if (err) { console.log(err, err.stack) } // an error occurred
-    else console.log(data) // successful response
+    if (err) {
+      console.log(err, err.stack)
+    } else {
+      console.log(data)
+    }
   })
 }
 
 // Upload to imgur
 exports.uploadImgur = function (req, res) {
-  var image = base64_encode(req.file.path)
+  var image = base64Encode(req.file.path)
   var headers = {
     authorization: `Client-ID ${IMGUR_CLIENT_ID}`
     // 'Authorization': `Bearer ${YOUR_ACCESS_TOKEN}`
