@@ -2,7 +2,6 @@ let { AWS_BUCKET, APP_NAME } = process.env
 
 const express = require('express')
 const path = require('path')
-const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -22,7 +21,6 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
 var app = express()
-app.use(favicon('https://s3.amazonaws.com/tdevisscher-images/collaborative-projects/td.png'))
 app.use(require('cookie-parser')())
 app.use(require('body-parser').urlencoded({ extended: true }))
 app.use(
