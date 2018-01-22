@@ -6,7 +6,7 @@
         "public/*",
         "uploads/*"
     ],
-    "verbose": true,
+    "verbose": false,
     "events": {
         "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
     },

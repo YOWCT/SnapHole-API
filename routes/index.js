@@ -18,8 +18,16 @@ aws.config.update({
 })
 
 /* GET home page. */
+
+router.all('*', function (req, res, next) {
+  var vm = {
+    user: req.user
+  }
+  next()
+})
+
 router.get('/', auth.loggedIn, function (req, res, next) {
-  res.render('index', { title: APP_NAME, menu: 'Home' })
+  res.render('index', { title: APP_NAME, menu: 'Home', user: req.user })
 })
 
 router.get('/requests_by_type', auth.loggedIn, function (req, res, next) {
@@ -80,7 +88,8 @@ router.get('/serviceRequests/:format?', auth.loggedIn, function (req, res) {
         vm = {
           title: 'Potholes List',
           menu: 'Requests',
-          results: results
+          results: results,
+          user: req.user
         }
         res.render('files', vm)
       }
@@ -115,7 +124,8 @@ router.get('/map/:format?', function (req, res) {
         var vm = {
           title: 'Potholes map',
           menu: 'Map',
-          results: holes
+          results: holes,
+          user: req.user
         }
         res.render('map', vm)
       }

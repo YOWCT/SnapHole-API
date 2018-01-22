@@ -1,5 +1,4 @@
-let { APP_NAME } = process.env
-
+const { APP_NAME } = process.env
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
