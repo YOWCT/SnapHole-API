@@ -214,7 +214,7 @@ var upload = multer({ storage: fsStorage })
 
 router.post('/sr', upload.single('userPhoto'), function (req, res) {
   storage.uploadS3(req, res)
-  storage.saveToDatabase(req, res)
+  // storage.saveToDatabase(req, res)
   res.send('success')
 })
 // GET One request
