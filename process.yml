@@ -2,5 +2,5 @@ apps:
   - script   : 'bin/www'
     name     : 'snaphole'
     exec_mode: 'cluster'
-    instances: 4
+    instances: 1
     watch    : false
