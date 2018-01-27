@@ -1,5 +1,4 @@
 exports.loggedIn = function (req, res, next) {
-  console.log('inside auth function', req.user)
   if (req.user) {
     next()
   } else {
