@@ -3,4 +3,4 @@ apps:
     name     : 'snaphole'
     exec_mode: 'cluster'
     instances: 4
-    watch    : true
+    watch    : false
