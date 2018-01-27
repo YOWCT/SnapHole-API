@@ -14,7 +14,9 @@
   },
   "now": {
     "name": "snaphole",
-    "alias": ["snaphole"],
+    "alias": [
+      "snaphole"
+    ],
     "env": {
       "NODE_ENV": "production",
       "APP_NAME": "SnapHole",
@@ -77,6 +79,7 @@
   "devDependencies": {
     "eslint-watch": "^3.1.3",
     "nodemon": "^1.11.0",
+    "now": "^9.2.7",
     "npm-run-all": "^4.1.2",
     "standard": "^10.0.3"
   }
