@@ -35,7 +35,7 @@
     "lint": "node_modules/.bin/esw",
     "lint:watch": "npm run lint -- --watch",
     "dev": "npm-run-all --parallel app lint:watch",
-    "start": "node bin/www",
+    "start": "pm2 start process.yml",
     "app": "nodemon --exec ./bin/www --config nodemon.json",
     "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
     "alias": "now alias --token=$NOW_TOKEN"
