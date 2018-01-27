@@ -157,7 +157,6 @@ router.post('/sr_information', function (req, res) {
       console.log('cannot find any approved cities :(')
       break
   }
-
   // Create record for pothole
   mongoose.model('Sr').create(
     {
@@ -167,9 +166,7 @@ router.post('/sr_information', function (req, res) {
       imgName: imgName,
       imgUrl: imgUrl,
       imgurUrl: imgurUrl,
-      location: { type: 'Point', coordinates: [longitude, latitude] },
-      longitude: longitude,
-      latitude: latitude
+      location: { type: 'Point', coordinates: [longitude, latitude] }
     },
     function (err, sr) {
       if (err) {
@@ -202,30 +199,6 @@ router.post('/size', function (req, res) {
     }
   )
 })
-
-// const multer = require('multer');
-// var upload = multer({
-//     storage: multerS3({
-//         s3: s3,
-//         bucket: AWS_BUCKET,
-//         ACL: 'public-read',
-//         key: function(req, file, cb) {
-//             console.log(file);
-//             cb(null, file.originalname + ".jpeg"); //use Date.now() for unique file keys
-//         }
-
-//     })
-
-// });
-
-// var fsStorage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './uploads')
-//     },
-//     filename: function(req, file, cb) {
-//         cb(null, Date.now() + '.jpeg')
-//     }
-// })
 
 // var upload = multer({ storage: fsStorage })
 var fsStorage = multer.diskStorage({

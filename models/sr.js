@@ -14,8 +14,6 @@ var srSchema = new Schema({
     type: { type: String },
     coordinates: []
   },
-  latitude: Number,
-  longitude: Number,
   serviceRequestId: String,
   serviceNotice: String
 })

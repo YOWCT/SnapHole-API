@@ -27,13 +27,13 @@ exports.saveToDatabase = function (req, res) {
   mongoose
     .model('Sr')
     .findOneAndUpdate(
-      { imgName: req.file.filename },
+      { imgName: req.file.originalname },
       { imgBase64: image },
       function (err, sr) {
         if (err) {
           console.log(err)
         } else {
-          console.log(sr)
+          console.log('Saved to database', sr)
         }
       }
     )
@@ -41,13 +41,14 @@ exports.saveToDatabase = function (req, res) {
 
 // Upload to s3
 exports.uploadS3 = function (req, res) {
-  console.log(req.file.path)
-  var image = fs.readFileSync(path.join(req.file.path))
-  console.log(image)
-  var params = {
+  const image = fs.readFileSync(path.join(req.file.path))
+  const filename = req.file.originalname.includes('.jpeg')
+    ? req.file.originalname.replace('.jpeg', '')
+    : req.file.originalname
+  const params = {
     Body: image,
     Bucket: AWS_BUCKET,
-    Key: req.file.originalname + '.jpeg',
+    Key: `${filename}.jpeg`,
     ServerSideEncryption: 'AES256'
   }
   s3.putObject(params, function (err, data) {
