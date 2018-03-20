@@ -201,7 +201,7 @@ router.post('/size', function (req, res) {
 })
 
 // var upload = multer({ storage: fsStorage })
-var fsStorage = multer.diskStorage({
+const fsStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
   },
@@ -210,12 +210,15 @@ var fsStorage = multer.diskStorage({
   }
 })
 
-var upload = multer({ storage: fsStorage })
+const upload = multer({ storage: fsStorage })
 
-router.post('/sr', upload.single('userPhoto'), function (req, res) {
-  storage.uploadS3(req, res)
-  // storage.saveToDatabase(req, res)
-  res.send('success')
+router.post('/sr', upload.single('userPhoto'), async (req, res) => {
+  try {
+    storage.uploadS3(req, res)
+    res.send('success')
+  } catch (e) {
+    res.send('error: ', e.stack)
+  }
 })
 // GET One request
 router.get('/sr/:id', function (req, res) {
