@@ -56,7 +56,7 @@ AWS_SECRET_ACCESS_KEY=key
 
 **Docker Compose (start/stop)**
 
-This will start the web server and the client. 
+From `SnapHole-Api`. Start the web server and the client. 
 
 ```bash
 $ docker-compose up
