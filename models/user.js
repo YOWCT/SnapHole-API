@@ -6,12 +6,10 @@ const passportLocalMongoose = require('passport-local-mongoose')
 /* User Schema - Basic info */
 var userSchema = new Schema({
   first_name: {
-    type: String,
-    required: true
+    type: String
   },
   last_name: {
-    type: String,
-    required: true
+    type: String
   },
   username: {
     type: String,
