@@ -5,36 +5,22 @@
 
 An app that receives a photo from a client app and sends a request to the City of Ottawa for pot hole repair.
 
-## Quickstart
+## Codeowners
 
-To quickly get a development server up and running, we are going to be using [Docker](https://docs.docker.com/engine/installation/) & [Docker Compose](https://docs.docker.com/compose/install/) to set up our `pothole webserver` online.
+Contact these people for information and ideas about how you may contribute :)
 
-```
-$ git clone git@github.com:YOWCT/SnapHole-API.git
-$ cd SnapHole-API
-$ docker-compose build
-$ docker-compose up
-
-pothole    | > SnapHole-API@0.0.0 prestart /usr/src/app
-pothole    | > jsdoc services/index.js -d public/docs
-pothole    |
-pothole    | npm info lifecycle SnapHole-API@0.0.0~start: SnapHole-API@0.0.0
-pothole    |
-pothole    | > SnapHole-API@0.0.0 start /usr/src/app
-pothole    | > node ./bin/www
-pothole    |
-pothole    | server running on port: 8089
-```
-
-Using your favorite web browser visit [`http://localhost:8089`](http://localhost:8089).
-
-![SnapHole-Preview](public/images/PotHole-Preview.png)
-
-## Full Install
+@devisscher, @vatdaell, @jsivakumaran
 
 ### Install Dependencies
 
 You must first install all dependencies using the [latest version of NodeJS](https://nodejs.org/en/).
+
+Then you must clone 2 repos as follows in the same parent folder.
+
+- 📁 apps
+    - 📁 Snaphole-Api
+    - 📁 snaphole-webapp
+
 
 ```bash
 $ git clone git@github.com:YOWCT/SnapHole-API.git
@@ -42,54 +28,41 @@ $ cd SnapHole-API
 $ npm install
 ```
 
-### Set up Database
-
-One of the easiest way to set up [MongoDB](https://www.mongodb.com/) is via a Docker container.
-
-More information here: https://hub.docker.com/_/mongo/
-
-**Docker Compose (start/stop)**
-
 ```bash
-$ docker-compose build
-$ docker-compose up mongodb
-
-$ docker-compose start mongodb
-Starting mongodb ... done
-
-$ docker-compose stop mongodb
-Stopping mongodb ... done
+$ git clone git@github.com:YOWCT/snaphole-webapp.git
 ```
 
-**Docker (start/stop)**
-
-```bash
-$ docker run -d --name mongodb -p 27017:27017 mongo
-da99aabd553b1c69c907068eea0f32329b47ad447000cc3204db27061f92673c
-
-$ docker stop mongodb
-mongodb
-```
 
 ### Environment Variables
 
-Add these variables in a file called `.env`.
+Add these variables in a file called `.env` at the root of `SnapHole-Api`. If you don't have credentials, contact someone in the Slack channel #Snap311.
 
 ```env
-KEY_PATH=key.pem
-CERT_PATH=cert.pem
 LOCAL=127.0.0.1
 PRODUCTION=prod_ip
-DOMAIN=https://example.com
+APP_NAME=SnapHole.io
+DOMAIN=http://localhost:8089
 PORT=8089
-DB_USER=db_user
-DB_HOST=db_ip_or_url
-DB_PASS=password
-MAILGUN_KEY=key-api_key
-FROM_EMAIL=ott311@esdev.xyz
+DB_PASSWORD=password
+MAILGUN_DOMAIN=mg.snaphole.io
+MAILGUN_KEY=key
+FROM_EMAIL=accounts@snaphole.io
+
+AWS_BUCKET=snaphole
+AWS_ACCESS_KEY_ID=key
+AWS_SECRET_ACCESS_KEY=key
+
 ```
 
-### Start Server
+**Docker Compose (start/stop)**
+
+This will start the web server and the client. 
+
+```bash
+$ docker-compose up
+```
+
+### Start the API only
 
 ```bash
 $ npm start
@@ -105,6 +78,12 @@ server running on port: 8089
 ```
 
 Using your favorite web browser visit [`http://localhost:8089`](http://localhost:8089).
+
+If you started the system with docker, you can also visit the client by visiting: [`http://localhost:3000`](http://localhost:3000).
+
+### Client
+
+Refer to the readme in the client app.
 
 ## References
 
@@ -137,7 +116,11 @@ api_key=xyz&jurisdiction_id=city.gov&service_code=001&lat=37.76524078&long=-122.
 - https://medium.com/@adinugroho/upload-image-from-ios-app-using-alamofire-ecc6ad7fccc
 - https://github.com/expressjs/multer/blob/master/StorageEngine.md
 
-** IOS **
+**IOS**
 
 - https://youtu.be/zAWO9rldyUE
 - http://jayeshkawli.ghost.io/ios-custom-url-schemes/
+
+**Create React App && Docker**
+
+- https://www.peterbe.com/plog/how-to-create-react-app-with-docker
