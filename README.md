@@ -13,7 +13,7 @@ Contact these people for information and ideas about how you may contribute :)
 
 ### Install Dependencies
 
-You must first install all dependencies using the [latest version of NodeJS](https://nodejs.org/en/).
+You must first install all dependencies using the [latest version of NodeJS](https://nodejs.org/en/).  Must have [Docker](https://store.docker.com/search?type=edition&offering=community) and [MongoDB](https://www.mongodb.com/download-center#community) installed beforehand.
 
 Then you must clone 2 repos as follows in the same parent folder.
 
@@ -30,6 +30,8 @@ $ npm install
 
 ```bash
 $ git clone git@github.com:YOWCT/snaphole-webapp.git
+$cd snaphole-webapp
+$npm install
 ```
 
 
