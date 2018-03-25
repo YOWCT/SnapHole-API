@@ -180,25 +180,25 @@ router.post('/sr_information', function (req, res) {
   )
 })
 
-router.post('/size', function (req, res) {
-  var uuid = req.body.uuid
-  var size = req.body.size
-  mongoose.model('Sr').findOneAndUpdate(
-    { fkPhid: uuid },
-    {
-      size: size
-    },
-    function (err, sr) {
-      if (err) {
-        res.send('There was a problem adding the information to the database.')
-        console.log(err)
-      } else {
-        // services.sendTicketToCity(fkPhid, latitude, longitude);
-        res.send(sr)
-      }
-    }
-  )
-})
+// router.post('/size', function (req, res) {
+//   var uuid = req.body.uuid
+//   var size = req.body.size
+//   mongoose.model('Sr').findOneAndUpdate(
+//     { fkPhid: uuid },
+//     {
+//       size: size
+//     },
+//     function (err, sr) {
+//       if (err) {
+//         res.send('There was a problem adding the information to the database.')
+//         console.log(err)
+//       } else {
+//         // services.sendTicketToCity(fkPhid, latitude, longitude);
+//         res.send(sr)
+//       }
+//     }
+//   )
+// })
 
 // var upload = multer({ storage: fsStorage })
 const fsStorage = multer.diskStorage({
