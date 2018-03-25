@@ -5,7 +5,7 @@ let { AWS_BUCKET, APP_NAME } = process.env
 const { geolocation } = require('../validation')
 const express = require('express')
 const router = express.Router()
-const request = require('request')
+const request = require('request-promise-native')
 const mongoose = require('mongoose')
 const helper = require('../services')
 const storage = require('../services/storage')
@@ -138,6 +138,7 @@ router.get('/map/:format?', function (req, res) {
 
 // POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function (req, res) {
+  console.log(`sr_info got HIT`);
   let clientInformation = 'N/A'
   let fkPhid = req.body.uuid
   let imgName = `${req.body.uuid}.jpeg`

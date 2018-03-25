@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`router sr_information adds information 1`] = `
+Object {
+  "__v": 0,
+  "_id": "[SANITIZED]",
+  "clientInformation": "N/A",
+  "fkPhid": "123456",
+  "imgName": "123456.jpeg",
+  "imgUrl": "https://s3.amazonaws.com/snaphole/123456.jpeg",
+  "imgurUrl": "https://s3.amazonaws.com/snaphole/123456.jpeg",
+  "location": Object {
+    "coordinates": Array [
+      -76.0804324,
+      45.249814,
+    ],
+    "type": "Point",
+  },
+  "timestamp": "[SANITIZED]",
+}
+`;
