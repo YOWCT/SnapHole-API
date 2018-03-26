@@ -138,7 +138,6 @@ router.get('/map/:format?', function (req, res) {
 
 // POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function (req, res) {
-  console.log(`sr_info got HIT`);
   let clientInformation = 'N/A'
   let fkPhid = req.body.uuid
   let imgName = `${req.body.uuid}.jpeg`
