@@ -149,35 +149,35 @@ router.post('/sr_information', function (req, res) {
   switch (geolocation(latitude, longitude)) {
     case 'ottawa':
       console.log('Pothole is located in Ottawa :)')
-      break
     case 'gatineau':
       console.log('Pothole is located on the darkside!')
+      // Create record for pothole
+      mongoose.model('Sr').create(
+        {
+          clientInformation: clientInformation,
+          timestamp: Date.now(),
+          fkPhid: fkPhid,
+          imgName: imgName,
+          imgUrl: imgUrl,
+          imgurUrl: imgurUrl,
+          location: { type: 'Point', coordinates: [longitude, latitude] }
+        },
+        function (err, sr) {
+          if (err) {
+            res.send('There was a problem adding the information to the database.')
+            console.log(err)
+          } else {
+            // services.sendTicketToCity(fkPhid, latitude, longitude);
+            res.send(sr)
+          }
+        }
+      )
       break
     default:
+      res.send({err: 'The location provided is not within Ottawa or Gatineau, the only two cities supported at the moment.'})
       console.log('cannot find any approved cities :(')
       break
   }
-  // Create record for pothole
-  mongoose.model('Sr').create(
-    {
-      clientInformation: clientInformation,
-      timestamp: Date.now(),
-      fkPhid: fkPhid,
-      imgName: imgName,
-      imgUrl: imgUrl,
-      imgurUrl: imgurUrl,
-      location: { type: 'Point', coordinates: [longitude, latitude] }
-    },
-    function (err, sr) {
-      if (err) {
-        res.send('There was a problem adding the information to the database.')
-        console.log(err)
-      } else {
-        // services.sendTicketToCity(fkPhid, latitude, longitude);
-        res.send(sr)
-      }
-    }
-  )
 })
 
 // router.post('/size', function (req, res) {
