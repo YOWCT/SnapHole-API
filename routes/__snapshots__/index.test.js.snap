@@ -19,3 +19,9 @@ Object {
   "timestamp": "[SANITIZED]",
 }
 `;
+
+exports[`router sr_information returns error message on location info outside of Ottawa-Gatineau 1`] = `
+Object {
+  "err": "The location provided is not within Ottawa or Gatineau, the only two cities supported at the moment.",
+}
+`;
