@@ -138,40 +138,35 @@ router.get('/map/:format?', function (req, res) {
 
 // POST Receive service request information from client app, initiate storage.
 router.post('/sr_information', function (req, res) {
-  let clientInformation = 'N/A'
-  let fkPhid = req.body.uuid
-  let imgName = `${req.body.uuid}.jpeg`
-  let imgUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`
-  let imgurUrl = `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`
   let longitude = parseFloat(req.body.long)
   let latitude = parseFloat(req.body.lat)
-
+  let modelInfo = {
+    clientInformation: 'N/A',
+    timestamp: Date.now(),
+    fkPhid: req.body.uuid,
+    imgName: `${req.body.uuid}.jpeg`,
+    imgUrl: `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+    imgurUrl: `https://s3.amazonaws.com/${AWS_BUCKET}/${req.body.uuid}.jpeg`,
+    location: {type: 'Point', coordinates: [longitude, latitude]}
+  }
+  let mongooseErrorHandler = function (err, sr) {
+    if (err) {
+      res.send('There was a problem adding the information to the database.')
+      console.log(err)
+    } else {
+      // services.sendTicketToCity(fkPhid, latitude, longitude);
+      res.send(sr)
+    }
+  }
   switch (geolocation(latitude, longitude)) {
     case 'ottawa':
       console.log('Pothole is located in Ottawa :)')
+      mongoose.model('Sr').create(modelInfo, mongooseErrorHandler)
+      break
     case 'gatineau':
       console.log('Pothole is located on the darkside!')
       // Create record for pothole
-      mongoose.model('Sr').create(
-        {
-          clientInformation: clientInformation,
-          timestamp: Date.now(),
-          fkPhid: fkPhid,
-          imgName: imgName,
-          imgUrl: imgUrl,
-          imgurUrl: imgurUrl,
-          location: { type: 'Point', coordinates: [longitude, latitude] }
-        },
-        function (err, sr) {
-          if (err) {
-            res.send('There was a problem adding the information to the database.')
-            console.log(err)
-          } else {
-            // services.sendTicketToCity(fkPhid, latitude, longitude);
-            res.send(sr)
-          }
-        }
-      )
+      mongoose.model('Sr').create(modelInfo, mongooseErrorHandler)
       break
     default:
       res.send({err: 'The location provided is not within Ottawa or Gatineau, the only two cities supported at the moment.'})
